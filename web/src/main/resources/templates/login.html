@@ -1,29 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<body>
-<h1>Login</h1>
-<form action="login" method="POST">
-    <table>
-        <tr>
-            <td>User:</td>
-            <td><input type='text' name='username' value=''/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='password' /></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
-        </tr>
-    </table>
-</form>
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{base_layout}"
+     layout:fragment="~{body}" th:remove="tag">
 
 
-</body>
-</body>
-</html>
+  <div class="main-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 page-content">
+          <div class="inner-box category-content">
+            <h2 class="title-2"><i class="icon-user-add"></i> Login Your Account</h2>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <form class="form-horizontal" action="/connect/facebook" method="post">
+                  <button  type="submit" class="loginBtn loginBtn--facebook">
+                    Login with Facebook
+                  </button>
+                </form>
+                <form class="form-horizontal" action="login" method="post">
+                  <fieldset>
+
+
+                    <div class="form-group  row required">
+                      <label for="inputEmail3" class="col-md-4 control-label">Email</label>
+
+                      <div class="col-md-6">
+                        <input type="email" name="userame" class="form-control" id="inputEmail3"
+                               placeholder="Email" required="">
+                      </div>
+                    </div>
+
+
+                    <div class="form-group  row required">
+                      <label for="inputPassword3" class="col-md-4 control-label">Password </label>
+
+                      <div class="col-md-6">
+                        <input type="password" name="password" class="form-control"
+                               id="inputPassword3"
+                               placeholder="Password" required="">
+                      </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                      <label class="col-md-4 control-label"></label>
+
+                      <div class="col-md-8">
+
+                        <div style="clear:both"></div>
+                        <input class="btn btn-primary" type="submit" value="Login">
+                      </div>
+                    </div>
+
+
+                  </fieldset>
+                </form>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        <!-- /.page-content -->
+
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </div>
+  <!-- /.main-container -->
+
+
+</div>
+
+

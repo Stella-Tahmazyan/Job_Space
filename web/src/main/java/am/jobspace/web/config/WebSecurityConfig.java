@@ -1,6 +1,6 @@
 package am.jobspace.web.config;
 
-import am.jobspace.common.security.UserDetailsServiceImpl;
+import am.jobspace.web.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,10 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .formLogin()
-                //.loginPage("/login")
+                .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .   defaultSuccessUrl("/loginSuccess")
+                .defaultSuccessUrl("/loginSuccess")
 
                 .permitAll()
                 .and()
@@ -43,4 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
+
+
 }

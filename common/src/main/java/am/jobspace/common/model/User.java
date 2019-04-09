@@ -38,5 +38,7 @@ public class User {
     @Column(name = "pic_url")
     private String picUrl;
 
-
+    public User(String name) {
+        this.name = name;
+    }
 }

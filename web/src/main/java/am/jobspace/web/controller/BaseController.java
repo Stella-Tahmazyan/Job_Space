@@ -1,5 +1,6 @@
 package am.jobspace.web.controller;
 
+import am.jobspace.common.model.User;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -13,6 +14,6 @@ public class BaseController {
 
   @ModelAttribute("user")
   public Object login(HttpServletRequest request) {
-    return request.getSession().getAttribute("user");
+    return new User("ddddd");
   }
 }
