@@ -11,7 +11,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <form class="form-horizontal" th:action="@{/register}" method="post" enctype="multipart/form-data">
+                                <form class="form-horizontal" th:action="@{/register}"  th:object="${user}" method="post" enctype="multipart/form-data">
                                     <fieldset>
 
 
@@ -20,8 +20,9 @@
                                             <label class="col-md-4 control-label">First Name <sup>*</sup></label>
 
                                             <div class="col-md-6">
-                                                <input name="name" placeholder="First Name" class="form-control input-md"
-                                                       required="" type="text">
+                                                <input  placeholder="First Name" class="form-control input-md"
+                                                       required="" type="text" th:field="*{name}">
+                                                <span th:errors="*{name}" class="error"></span>
                                             </div>
                                         </div>
 
@@ -30,7 +31,7 @@
                                             <label class="col-md-4 control-label">Last Name <sup>*</sup></label>
 
                                             <div class="col-md-6">
-                                                <input name="surname" placeholder="Last Name"
+                                                <input th:field="*{surname}" placeholder="Last Name"
                                                        class="form-control input-md" type="text" required="">
                                             </div>
                                         </div>
@@ -40,7 +41,7 @@
                                             <label class="col-md-4 control-label">Phone Number <sup>*</sup></label>
 
                                             <div class="col-md-6">
-                                                <input type="number" name="number" placeholder="Phone Number"
+                                                <input type="number" th:field="*{number}" placeholder="Phone Number"
                                                        class="form-control input-md" required="" >
                                      </div>
                                         </div>
@@ -53,7 +54,7 @@
                                                 <sup>*</sup></label>
 
                                             <div class="col-md-6">
-                                                <input type="email" name="email" class="form-control" id="inputEmail3"
+                                                <input type="email" th:field="*{email}" class="form-control" id="inputEmail3"
                                                        placeholder="Email" required="">
                                             </div>
                                         </div>
@@ -87,7 +88,7 @@
                                             <label for="inputPassword3" class="col-md-4 control-label">Password </label>
 
                                             <div class="col-md-6">
-                                                <input type="password" name="password" class="form-control" id="inputPassword3"
+                                                <input type="password" th:field="*{password}" class="form-control" id="inputPassword3"
                                                        placeholder="Password" required="">
 
 

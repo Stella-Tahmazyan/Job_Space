@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableJpaRepositories(basePackages = {"am.jobspace.common"})
+@EnableJpaRepositories(basePackages = {"am.jobspace.common.repository"})
 @ComponentScan(basePackages = {"am.jobspace.common.*","am.jobspace.api"})
 @EntityScan(basePackages = "am.jobspace.common.model")
 @SpringBootApplication

@@ -1,27 +1,20 @@
 package am.jobspace.web.controller;
 
 
-import am.jobspace.common.model.Gender;
 import am.jobspace.common.model.User;
-import am.jobspace.common.model.UserType;
 import am.jobspace.common.repository.UserRepository;
-import am.jobspace.common.service.EmailService;
 import am.jobspace.web.security.SpringUser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
 
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -52,6 +46,13 @@ public class UserController {
   private UserRepository userRepository;
 
 //  @Autowired
+//  private Validator validator;
+
+//  @InitBinder
+//  private void initBinder(WebDataBinder binder) {
+//    binder.setValidator(validator);
+//  }
+//  @Autowired
 //  private EmailService emailService;
 
   @GetMapping("/loginSuccess")
@@ -60,16 +61,16 @@ public class UserController {
     String url = "http://localhost:8085/user/add";
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<User> response = restTemplate.exchange(
-      url,
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<User>() {
-      });
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<User>() {
+        });
 
-   User user = response.getBody();
-   if(user!=null){
-     return "/";
-   }
+    User user = response.getBody();
+    if (user != null) {
+      return "/";
+    }
     return "redirect:/register";
 
   }
@@ -78,36 +79,42 @@ public class UserController {
   public String registerForm(ModelMap map) {
     List<User> all = userRepository.findAll();
     map.addAttribute("users", all);
+    map.addAttribute("user", new User());
     return "registration";
   }
 
   @PostMapping("/register")
-  public String register(RedirectAttributes redirectAttributes,@ModelAttribute User user,
-      @RequestParam("picture") MultipartFile file,BindingResult buldingResult) throws IOException {
-    String url = "http://localhost:8085/user/add";
-    RestTemplate restTemplate = new RestTemplate();
-    RequestEntity<User> response = restTemplate.postForEntity(user);
-        url,
-        HttpMethod.POST,
-        user,
-  });
+  public String register(RedirectAttributes redirectAttributes,
+      @ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+      @RequestParam("picture") MultipartFile file) throws IOException {
+    if (bindingResult.hasErrors()) {
+      return "registration";
 
-    User user = response.getBody();
-    if(user!=null){
-      return "/";
     }
-    return "redirect:/register";
-
-//    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    String url = "http://localhost:8085/user/add";
     String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
     File picture = new File(imageUploadDir + File.separator + fileName);
     file.transferTo(picture);
     user.setPicUrl(fileName);
-    userRepository.save(user);
-    redirectAttributes.addFlashAttribute("message", "You are registered successfully!");
-    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+    RestTemplate restTemplate = new RestTemplate();
+    HttpEntity<User> request = new HttpEntity<>(user);
 
-    return "redirect:/";
+    ResponseEntity<User> response = restTemplate.exchange(
+        url,
+        HttpMethod.POST,
+        request,
+        User.class);
+    User us = response.getBody();
+
+    if (us != null) {
+      return "redirect:/login";
+    }
+    return "redirect:/login";
+
+//redirectAttributes.addFlashAttribute("message", "You are registered successfully!");
+//    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+//    return "redirect:/";
   }
 
   @GetMapping("/add")

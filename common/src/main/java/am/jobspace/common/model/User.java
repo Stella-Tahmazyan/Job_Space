@@ -1,11 +1,12 @@
 package am.jobspace.common.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import java.io.Serializable;
 
 
 @Data
@@ -14,12 +15,15 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable{
+  private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
+    @NotNull
+    @Size(min = 4,max = 10,message = "{name.notempty}")
     private String name;
     @Column
     private String surname;
@@ -38,7 +42,7 @@ public class User {
     @Column(name = "pic_url")
     private String picUrl;
 
-    public User(String name) {
-        this.name = name;
-    }
+  public User(String name) {
+    this.name = name;
+  }
 }
