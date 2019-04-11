@@ -2,12 +2,6 @@
 <div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"  layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
     <div style="text-align: center;
     font-size: 24px;" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
-<input  type="hidden" id="token" th:value="${token}">
+    <a th:href="@{/post/getByCategory(id=1)}">ggggggggggg</a></td>
 </div>
-<script>
-    var token=$("#token").val();
-    if(!token==''){
-
-localStorage.setItem("token", token);
-}
 </script>

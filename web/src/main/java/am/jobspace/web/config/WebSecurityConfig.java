@@ -11,39 +11,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+  @Autowired
+  private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/loginSuccess")
-            . failureUrl("/login")
-
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .authorizeRequests();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable()
+        .formLogin()
+        .loginPage("/login")
+        .usernameParameter("username")
+        .passwordParameter("password")
+        .defaultSuccessUrl("/loginSuccess")
+        .failureUrl("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutSuccessUrl("/")
+        .and()
+        .authorizeRequests();
 //                .antMatchers("/").permitAll()
 //                .antMatchers("/register").permitAll()
 //                .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
 //                .antMatchers("/admin").hasAuthority("ADMIN");
-    }
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder);
+  }
 
 
 }
