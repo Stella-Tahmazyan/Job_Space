@@ -6,6 +6,7 @@ import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.api.util.JwtTokenUtil;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
+@Slf4j
 public class AuthEndpoint {
 
   @Autowired
@@ -36,9 +38,9 @@ public class AuthEndpoint {
       if (passwordEncoder.matches(authRequestDto.getPassword(), user.getPassword()) || authRequestDto.getPassword().equalsIgnoreCase(user.getPassword())) {
         String token = jwtTokenUtil.generateToken(user.getEmail());
         JwtAuthResponseDto response = JwtAuthResponseDto.builder()
-          .token(token)
-          .user(user)
-          .build();
+                .token(token)
+                .user(user)
+                .build();
         return ResponseEntity.ok(response);
       }
     }
@@ -46,6 +48,7 @@ public class AuthEndpoint {
       .status(HttpStatus.UNAUTHORIZED)
       .build();
   }
+
 
 
 }
