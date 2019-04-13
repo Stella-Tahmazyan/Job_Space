@@ -21,7 +21,7 @@
 
                                             <div class="col-md-6">
                                                 <input  placeholder="First Name" class="form-control input-md"
-                                                       required="" type="text" th:field="*{name}">
+                                                        required="" type="text" th:field="*{name}">
                                                 <span th:errors="*{name}" class="error"></span>
                                             </div>
                                         </div>
@@ -43,7 +43,7 @@
                                             <div class="col-md-6">
                                                 <input type="number" th:field="*{number}" placeholder="Phone Number"
                                                        class="form-control input-md" required="" >
-                                     </div>
+                                            </div>
                                         </div>
 
 
@@ -139,7 +139,7 @@
                             <h3><strong th:text="${user.name}"></strong></h3>
 
                             <p>
-                            <img width="150" th:if="${user.picUrl != null}" th:src="@{/getImage(picUrl=${user.picUrl})}" class="rounded-circle">
+                                <img width="150" th:if="${user.picUrl != null}" th:src="@{/getImage(picUrl=${user.picUrl})}" class="rounded-circle">
                             </p>
                         </div>
 

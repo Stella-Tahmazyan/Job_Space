@@ -34,8 +34,8 @@ import java.util.List;
 public class UserController {
 
 
-  @Value("${image.upload.dir}")
-  private String imageUploadDir;
+    @Value("${image.upload.dir}")
+    private String imageUploadDir;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -76,13 +76,14 @@ public class UserController {
 
     List<User> all = userRepository.findAll();
     map.addAttribute("users", all);
-    map.addAttribute("user", new User());
+    //map.addAttribute("user", new User());
     return "registration";
   }
 
   @PostMapping("/register")
   public String register(RedirectAttributes redirectAttributes,
-      @ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+      @ModelAttribute("user")
+      @Valid User user, BindingResult bindingResult,
       @RequestParam("picture") MultipartFile file) throws IOException {
     if (bindingResult.hasErrors()) {
       return "registration";
