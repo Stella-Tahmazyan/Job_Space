@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
+
+import am.jobspace.common.repository.CategoryRepositroy;
+import am.jobspace.web.security.SpringUser;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +21,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class BaseController {
+    private CategoryRepositroy categoryRepositroy;
 
   @Value("${server.IP}")
   private String hostName;
@@ -41,4 +47,5 @@ public class BaseController {
     return categories;
 
   }
+
 }

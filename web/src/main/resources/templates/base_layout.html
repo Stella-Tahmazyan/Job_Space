@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" th:href="@{assets/ico/apple-touch-icon-114-precomposed.png}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{assets/ico/apple-touch-icon-72-precomposed.png}">
     <link rel="apple-touch-icon-precomposed" th:href="@{assets/ico/apple-touch-icon-57-precomposed.png}">
-    <link rel="shortcput icon" th:href="@{assets/ico/favicon.png}">
+    <link rel="shortcut icon" th:href="@{assets/ico/favicon.png}">
 
     <title layout:fragment="~{title}" th:text="#{page.title}"></title>
     <!-- Bootstrap core CSS -->
@@ -27,8 +27,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script th:src="@{assets/js/jquery/jquery-3.3.1.min.js}">\x3C/script>')</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 
     <script th:src="@{assets/js/vendors.min.js}"></script>
 
@@ -48,12 +46,23 @@
 </head>
 <body>
 <div id="wrapper">
-<header th:replace="header::header"></header>
+    <div class="themeControll ">
+        <h3 style=" color:#fff; font-size: 10px; line-height: 12px;" class="uppercase color-white text-center">
+            <a target="_blank" href="#">  All
+                Categories</a> </h3>
 
-<div layout:fragment="~{body}">
+        <div  class="linkinner linkScroll scrollbar " tabindex="1" style="overflow: hidden; outline: none; touch-action: none;">
+            <a  th:each="cat : ${categories}" th:text="${cat.name}"></a>
+        </div>
 
-</div>
-<footer th:replace="footer::footer"></footer>
+        <p class="tbtn"><i class="fa fa-angle-double-left"></i></p>
+        <div id="ascrail2000" class="nicescroll-rails nicescroll-rails-vr" style="width: 8px; z-index: 999999; cursor: default; position: absolute; top: 64px; left: 162px; height: 400px; touch-action: none; display: block; opacity: 0;"><div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 6px; height: 122px; background-color: rgb(66, 66, 66); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px; touch-action: none;"></div></div><div id="ascrail2000-hr" class="nicescroll-rails nicescroll-rails-hr" style="height: 8px; z-index: 999999; top: 456px; left: 0px; position: absolute; cursor: default; display: none; width: 162px; opacity: 0;"><div class="nicescroll-cursors" style="position: absolute; top: 0px; height: 6px; width: 170px; background-color: rgb(66, 66, 66); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px; left: 0px;"></div></div></div>
+    <header th:replace="header::header"></header>
+
+    <div layout:fragment="~{body}">
+
+    </div>
+    <footer th:replace="footer::footer"></footer>
 </div>
 </body>
 </html>
