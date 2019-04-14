@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
+import am.jobspace.common.repository.CategoryRepositroy;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class BaseController {
+
 
   @Value("${server.IP}")
   private String hostName;
@@ -31,11 +34,11 @@ public class BaseController {
     RestTemplate restTemplate = new RestTemplate();
 
     ResponseEntity<List<Category>> response = restTemplate.exchange(
-        url,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<List<Category>>() {
-        });
+            url,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<List<Category>>() {
+            });
     List<Category> categories = response.getBody();
 
     return categories;
