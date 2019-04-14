@@ -15,8 +15,8 @@ import java.io.Serializable;
 @Builder
 @Entity
 @Table(name = "user")
-public class User{
-  //private static final long serialVersionUID = 1L;
+public class User implements Serializable{
+  private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +42,4 @@ public class User{
     @Column(name = "pic_url")
     private String picUrl;
 
-<<<<<<< Updated upstream
-=======
-//  public User(String name) {
-//    this.name = name;
-//  }
->>>>>>> Stashed changes
 }

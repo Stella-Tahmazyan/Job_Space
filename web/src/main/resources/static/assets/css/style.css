@@ -1960,7 +1960,7 @@ label {
   font-weight: 700;
   margin-bottom: 10px;
   margin-top: 0;
-  /*text-transform: uppercase; */}
+  text-transform: uppercase; }
   @media (max-width: 767px) {
     .footer-title {
       margin-bottom: 0;

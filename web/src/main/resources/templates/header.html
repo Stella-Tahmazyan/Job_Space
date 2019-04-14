@@ -1,4 +1,5 @@
 <header  xmlns:th="http://www.thymeleaf.org">
+<header  xmlns:th="http://www.thymeleaf.org">
         <div class="header">
         <nav class="navbar  fixed-top navbar-site navbar-light bg-light navbar-expand-md"
              role="navigation">
@@ -35,7 +36,7 @@
                                         <li class="dropdown no-arrow nav-item">
                                                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 
-                                                <span th:text="#{user.name}"></span>   <i class="fas fa-user"></i>  <i class="fas fa-sort-down"></i></a>
+                                                <span>User Name</span>   <i class="fas fa-user"></i>  <i class="fas fa-sort-down"></i></a>
                                                 <ul
                                                         class="dropdown-menu user-menu dropdown-menu-right">
                                                         <li class="active dropdown-item">
@@ -43,15 +44,12 @@
 
                                                         </a>
                                                         <li>
-                                                        <!--<span th:if="${userik!=null}" th:text="${userik.username}"> </span>-->
-
+                                                        <!--<span th:if="${user!=null}" th:text="${user.username}"></span>-->
                                                 </li>
                                                         </li>
                                                         <li class="dropdown-item"><a href="/login"><i class="icon-th-thumb"></i> Login </a>
                                                         </li>
                                                         <li class="dropdown-item"><a href="/register"><i class="icon-heart"></i> Registration </a>
-                                                        </li>
-                                                        <li class="dropdown-item"><a href="/addCategory"><i class="icon-heart"></i> Add cat </a>
                                                         </li>
 
 
@@ -61,18 +59,12 @@
                                         </li>
                                         <li class="dropdown  lang-menu nav-item">
                                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="lang-title">Lang</span>
+                                                        <span class="lang-title">EN</span>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right user-menu" role="menu">
-                                                        <li class="dropdown-item">
-                                                                <a th:href="@{/(lang=en)}"><span class="lang-name">English</span></a>
+                                                        <li class="dropdown-item"><a class="active">
 
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                                <a th:href="@{/(lang=hy)}"><span class="lang-name">Հայերեն</span></a>
-                                                                <!--<a class="active">-->
-
-                                                                <!--<span class="lang-name">English</span></a>-->
+                                                                <span class="lang-name">English</span></a>
                                                         </li>
 
                                                 </ul>
