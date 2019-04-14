@@ -1,20 +1,16 @@
 package am.jobspace.web.controller;
 
-<<<<<<< Updated upstream
 import am.jobspace.common.model.Category;
 import am.jobspace.common.model.JwtAuthResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-=======
 
-import am.jobspace.common.model.Category;
-import am.jobspace.common.model.User;
+
 import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.web.security.SpringUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
->>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +23,6 @@ import java.util.List;
 public class BaseController {
     private CategoryRepositroy categoryRepositroy;
 
-<<<<<<< Updated upstream
   @Value("${server.IP}")
   private String hostName;
 
@@ -52,26 +47,5 @@ public class BaseController {
     return categories;
 
   }
-=======
-    @ModelAttribute("user")
-    public Object login(HttpServletRequest request) {
-    return request.getSession().getAttribute("user");
-     }
 
-
-//    @ModelAttribute("userik")
-//    public User getUser(@AuthenticationPrincipal
-//                                SpringUser springUser) {
-//        if (springUser != null && springUser.getUser() != null) {
-//            return springUser.getUser();
-//        }
-//
-//        return null;
-//    }
-
-//    @ModelAttribute("categories")
-//    public List<Category> getCategory() {
-//        return categoryRepositroy.findAll();
-//    }
->>>>>>> Stashed changes
 }

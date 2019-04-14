@@ -42,10 +42,4 @@ public class User{
     @Column(name = "pic_url")
     private String picUrl;
 
-<<<<<<< Updated upstream
-=======
-//  public User(String name) {
-//    this.name = name;
-//  }
->>>>>>> Stashed changes
 }
