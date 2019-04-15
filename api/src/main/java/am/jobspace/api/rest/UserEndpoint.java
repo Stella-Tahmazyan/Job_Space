@@ -1,8 +1,5 @@
 package am.jobspace.api.rest;
 
-import am.jobspace.api.util.JwtTokenUtil;
-import am.jobspace.common.model.JwtAuthRequestDto;
-import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
@@ -19,8 +16,7 @@ import java.util.Optional;
 
 @RestController
 public class UserEndpoint {
-  @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+
 
   @Value("${image.upload.dir}")
   private String imageUploadDir;
@@ -48,25 +44,6 @@ public class UserEndpoint {
     return ResponseEntity.ok(user);
   }
 
-  @PostMapping("/auth")
-  public ResponseEntity auth(@RequestBody JwtAuthRequestDto authRequestDto) {
-    String email = authRequestDto.getEmail();
-    Optional<User> byEmail = userRepository.findByEmail(email);
-    if (byEmail.isPresent()) {
-      User user = byEmail.get();
-      if (passwordEncoder.matches(authRequestDto.getPassword(), user.getPassword()) || authRequestDto.getPassword().equalsIgnoreCase(user.getPassword())) {
-        String token = jwtTokenUtil.generateToken(user.getEmail());
-        JwtAuthResponseDto response = JwtAuthResponseDto.builder()
-            .token(token)
-            .user(user)
-            .build();
-        return ResponseEntity.ok(response);
-      }
-    }
-    return ResponseEntity
-        .status(HttpStatus.UNAUTHORIZED)
-        .build();
-  }
 
   @PutMapping("/user/update")
   public ResponseEntity update(@RequestBody User user) {

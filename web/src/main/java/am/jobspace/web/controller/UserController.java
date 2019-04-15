@@ -5,10 +5,12 @@ import am.jobspace.common.model.JwtAuthRequestDto;
 import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.UserRepository;
+import am.jobspace.web.WebApplication;
 import am.jobspace.web.security.SpringUser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -28,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.List;
 
 @Controller
@@ -50,7 +54,7 @@ public class UserController {
 
   @GetMapping("/loginSuccess")
   public String loginSuccess(@AuthenticationPrincipal
-      SpringUser springUser,HttpServletRequest request ) {
+      SpringUser springUser,RedirectAttributes model) {
     String url = hostName+"auth";
     RestTemplate restTemplate = new RestTemplate();
 
@@ -63,7 +67,8 @@ public class UserController {
         req,
         JwtAuthResponseDto.class);
     JwtAuthResponseDto user = response.getBody();
-    request.getSession().setAttribute("user",user);
+    model.addFlashAttribute("token",  user.getToken());
+
     if (user == null) {
       return "redirect:/login";
     }
@@ -126,4 +131,6 @@ public class UserController {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     IOUtils.copy(in, response.getOutputStream());
   }
+
+
 }

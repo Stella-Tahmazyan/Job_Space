@@ -42,4 +42,7 @@ public class User implements Serializable{
     @Column(name = "pic_url")
     private String picUrl;
 
+  public User(String name) {
+    this.name = name;
+  }
 }
