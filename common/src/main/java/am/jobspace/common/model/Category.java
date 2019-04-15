@@ -26,4 +26,5 @@ public class Category {
     @Column
     private Locale locale;
 
+//Rozchka
 }
