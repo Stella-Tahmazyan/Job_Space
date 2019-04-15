@@ -6,24 +6,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Locale;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "post")
+public class Post  {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   @Column
-  private String name;
+  private String shortDescription;
   @Column
-  private String picName;
+  private String title;
   @Column
-  private Locale locale;
-
+  private String description;
+  @ManyToOne
+  private Category category;
+  @ManyToOne
+  private User user;
 }
+
