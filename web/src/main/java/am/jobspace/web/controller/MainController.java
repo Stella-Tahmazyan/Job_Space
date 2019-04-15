@@ -37,20 +37,24 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String main(ModelMap map,@RequestParam(required=false,defaultValue="en",name="lang") String locale) {
+    public String main(ModelMap map) {
 
-            List<Category> cat=categoryRepositroy.findAllByLocale(locale);
+            List<Category> cat=categoryRepositroy.findAll();
             map.addAttribute("categories",cat);
                 return "index";
     }
 
     @GetMapping("/worker")
-    public String workerPage() {
+    public String workerPage(ModelMap map) {
+        List<Category> cat=categoryRepositroy.findAll();
+        map.addAttribute("categories",cat);
         return "worker";
     }
 
     @GetMapping("/employer")
-    public String employerPage() {
+    public String employerPage(ModelMap map) {
+        List<Category> cat=categoryRepositroy.findAll();;
+        map.addAttribute("categories",cat);
         return "employer";
     }
 

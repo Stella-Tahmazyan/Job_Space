@@ -23,7 +23,8 @@
 
                                 <button
                                         class="flag-menu country-flag d-block d-md-none btn btn-secondary hidden pull-right"
-                                        href="#select-country" data-toggle="modal">	<span class="flag-icon flag-icon-us"></span>  <span class="caret"></span>
+                                        href="#select-country" data-toggle="modal">	<span class="flag-icon flag-icon-us"></span>
+                                        <span class="caret"></span>
                                 </button>
 
                         </div>
@@ -35,7 +36,8 @@
                                         <li class="dropdown no-arrow nav-item">
                                                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 
-                                                <span th:text="#{user.name}"></span>   <i class="fas fa-user"></i>  <i class="fas fa-sort-down"></i></a>
+                                                <span th:if="${currentUser!=null}" th:text="${currentUser.user.name}"></span>
+                                                        <i class="fas fa-user"></i>  <i class="fas fa-sort-down"></i></a>
                                                 <ul
                                                         class="dropdown-menu user-menu dropdown-menu-right">
                                                         <li class="active dropdown-item">
@@ -61,15 +63,15 @@
                                         </li>
                                         <li class="dropdown  lang-menu nav-item">
                                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="lang-title">Lang</span>
+                                                        <span class="lang-title" th:text="#{lang.langName}"></span>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right user-menu" role="menu">
                                                         <li class="dropdown-item">
-                                                                <a th:href="@{/(lang=en)}"><span class="lang-name">English</span></a>
+                                                                <a href="?lang=en"><span class="lang-name" th:text="#{lang.langNameEn}"></span></a>
 
                                                         </li>
                                                         <li class="dropdown-item">
-                                                                <a th:href="@{/(lang=hy)}"><span class="lang-name">Հայերեն</span></a>
+                                                                <a href="?lang=hy"><span class="lang-name" th:text="#{lang.langNameArm}"></span></a>
                                                                 <!--<a class="active">-->
 
                                                                 <!--<span class="lang-name">English</span></a>-->

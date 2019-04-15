@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Locale;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "category")
+
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +23,7 @@ public class Category {
     private String name;
     @Column
     private String picName;
+    @Column
+    private Locale locale;
 
 }

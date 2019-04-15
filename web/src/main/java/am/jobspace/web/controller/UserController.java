@@ -1,9 +1,11 @@
 package am.jobspace.web.controller;
 
 
+import am.jobspace.common.model.Category;
 import am.jobspace.common.model.JwtAuthRequestDto;
 import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.User;
+import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.UserRepository;
 import am.jobspace.web.security.SpringUser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -42,6 +44,8 @@ public class UserController {
 
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private CategoryRepositroy categoryRepositroy;
 
   @Value("${server.IP}")
   private String hostName;
@@ -76,7 +80,6 @@ public class UserController {
 
     List<User> all = userRepository.findAll();
     map.addAttribute("users", all);
-    //map.addAttribute("user", new User());
     return "registration";
   }
 
@@ -107,17 +110,13 @@ public class UserController {
     }
     return "redirect:/login";
 
-//redirectAttributes.addFlashAttribute("message", "You are registered successfully!");
-//    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-
-//    return "redirect:/";
   }
 
-  @GetMapping("/add")
-  public String addUserView(ModelMap map) {
-    userRepository.findAll();
-    return "addUser";
-  }
+//  @GetMapping("/add")
+//  public String addUserView(ModelMap map) {
+//    userRepository.findAll();
+//    return "addUser";
+//  }
 
 
   @GetMapping("/getImage")

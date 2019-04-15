@@ -7,14 +7,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-<<<<<<< HEAD
-import am.jobspace.common.repository.CategoryRepositroy;
-=======
 
 import am.jobspace.common.repository.CategoryRepositroy;
-import am.jobspace.web.security.SpringUser;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
->>>>>>> roza_project
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
@@ -36,7 +30,7 @@ public class BaseController {
     return (JwtAuthResponseDto) request.getSession().getAttribute("user");
   }
 
-  @ModelAttribute("categories")
+  @ModelAttribute("categoriess")
   public List<Category> getCategory() {
     String url = hostName + "category/get/all";
     RestTemplate restTemplate = new RestTemplate();
@@ -52,5 +46,7 @@ public class BaseController {
     return categories;
 
   }
+
+
 
 }
