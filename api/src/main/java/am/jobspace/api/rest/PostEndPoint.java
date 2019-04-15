@@ -1,11 +1,8 @@
 package am.jobspace.api.rest;
 
-import am.jobspace.common.model.Category;
 import am.jobspace.common.model.Post;
-import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.PostRepository;
-import am.jobspace.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +22,7 @@ public class PostEndPoint {
 
 
   @GetMapping("get/{id}")
-  public ResponseEntity getAllCategory(@PathVariable("id") int id) {
+  public ResponseEntity getById(@PathVariable("id") int id) {
     Optional<Post> allCategory = postRepository.findById(id);
     if (allCategory.isPresent()) {
       return ResponseEntity
@@ -39,6 +36,12 @@ public class PostEndPoint {
     List<Post> allCategory = postRepository.findAll();
     return ResponseEntity
         .ok(allCategory);
+  }
+
+  @GetMapping("get/category/{id}")
+  public ResponseEntity getByCategory(@PathVariable("id") int id) {
+    List<Post> allCategory = postRepository.findAllByCategoryId(id);
+    return ResponseEntity.ok(allCategory);
   }
 
   @PutMapping("update")
@@ -61,16 +64,5 @@ public class PostEndPoint {
           .build();
     }
     return ResponseEntity.notFound().build();
-  }
-
-  @GetMapping("get/category/{id}")
-  public ResponseEntity getByCategory(@PathVariable("id") int id) {
-    Optional<Category> category = categoryRepositroy.findById(id);
-    if (category.isPresent()) {
-      List<Post> allCategory = postRepository.findAllByCategory(category.get());
-      return ResponseEntity.ok(allCategory);
-    }
-    return ResponseEntity
-        .notFound().build();
   }
 }

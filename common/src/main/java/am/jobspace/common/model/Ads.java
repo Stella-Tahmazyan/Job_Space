@@ -6,28 +6,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "post")
-public class Post  {
+@Table(name = "ads")
+public class Ads {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
   @Column
-  private String shortDescription;
+  private int id;
   @Column
   private String title;
   @Column
-  private String description;
+  private String shortText;
+  @Column(columnDefinition="text")
+  private String text;
   @ManyToOne
   private Category category;
   @ManyToOne
   private User user;
+  @Column(name="pic_url")
+  private String picUrl;
 }
-

@@ -16,15 +16,14 @@ import java.util.Locale;
 @Table(name = "category")
 
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column
-    private String name;
-    @Column
-    private String picName;
-    @Column
-    private Locale locale;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  @Column
+  private String name;
+  @Column
+  private String picName;
+  @Column
+  private Locale locale;
 
-//Rozchka
 }

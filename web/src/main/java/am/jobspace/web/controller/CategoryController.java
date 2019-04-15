@@ -1,29 +1,32 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
+import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.repository.CategoryRepositroy;
+import am.jobspace.web.component.ApiUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Locale;
 
-
 @Controller
+@RequestMapping("/category")
 public class CategoryController {
     @Value("${image.upload.dir}")
     private String imageUploadDir;
@@ -57,4 +60,89 @@ public class CategoryController {
         IOUtils.copy(in, response.getOutputStream());
     }
 
+  @Value("${server.IP}")
+  private String hostName;
+
+  @Autowired
+  private ApiUtil apiUtil;
+
+  @GetMapping("get/all")
+  public String getAll() {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = hostName + "get/all";
+    ResponseEntity<List<Category>> response = restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Category>>() {
+        });
+    if (response.getStatusCode().equals(ResponseEntity.notFound())) {
+      // add condition
+      return "";
+    }
+    List<Category> categories = response.getBody();
+    return "";
+  }
+
+  @GetMapping("get")
+  public String getAll(@RequestParam("id") int id) {
+    RestTemplate restTemplate = new RestTemplate();
+
+    String url = hostName + "get/"+ id;
+
+    ResponseEntity<Category> response = restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<Category>() {
+        });
+    if (response.getStatusCode().equals(ResponseEntity.notFound())) {
+      // add condition
+      return "";
+    }
+    Category category = response.getBody();
+    return "";
+  }
+
+  @GetMapping("update")
+  public String update(@ModelAttribute("category") Category category, HttpServletRequest request) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = hostName + "category/update";
+    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
+    if (jwt == null) {
+      return "";
+    }
+    HttpHeaders headers = new HttpHeaders();
+    apiUtil.setHeader(jwt.getToken(), headers);
+    HttpEntity<Category> reqt = new HttpEntity<>(category, headers);
+    ResponseEntity<Category> response = restTemplate.exchange(
+        url,
+        HttpMethod.PUT,
+        reqt,
+        new ParameterizedTypeReference<Category>() {
+        });
+     category = response.getBody();
+    return "redirect:/";
+  }
+
+  @GetMapping("delete")
+  public String deleteById(@RequestParam("id") int id,HttpServletRequest request) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = hostName + "category/delete/" + id;
+    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
+    if (jwt == null) {
+      return "";
+    }
+    HttpHeaders headers = new HttpHeaders();
+    apiUtil.setHeader(jwt.getToken(), headers);
+    HttpEntity<String> req = new HttpEntity<>(headers);
+    ResponseEntity response = restTemplate.exchange(
+        url,
+        HttpMethod.DELETE,
+        req,
+        String.class
+    );
+    response.getStatusCode();
+    return "";
+  }
 }

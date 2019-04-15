@@ -35,7 +35,6 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
       .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
       .and()
       .authorizeRequests()
-        .antMatchers("/category/get/all").permitAll()
       .antMatchers("/users").hasAnyAuthority("USER", "ADMIN")
       .antMatchers("/user/update").hasAnyAuthority("USER", "ADMIN")
       .antMatchers("/todos").hasAnyAuthority("USER", "ADMIN")
