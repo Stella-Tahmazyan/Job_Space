@@ -28,8 +28,15 @@ import java.util.Locale;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
+
     @Value("${image.upload.dir}")
     private String imageUploadDir;
+
+    @Value("${server.IP}")
+    private String hostName;
+
+    @Autowired
+    private ApiUtil apiUtil;
 
     @Autowired
     private CategoryRepositroy categoryRepositroy;
@@ -60,11 +67,7 @@ public class CategoryController {
         IOUtils.copy(in, response.getOutputStream());
     }
 
-  @Value("${server.IP}")
-  private String hostName;
 
-  @Autowired
-  private ApiUtil apiUtil;
 
   @GetMapping("get/all")
   public String getAll() {
