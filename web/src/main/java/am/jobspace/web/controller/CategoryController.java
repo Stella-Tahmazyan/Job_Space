@@ -1,9 +1,8 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
-import am.jobspace.common.model.JwtAuthResponseDto;
+import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
-import am.jobspace.web.component.ApiUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,8 +34,6 @@ public class CategoryController {
     @Value("${server.IP}")
     private String hostName;
 
-    @Autowired
-    private ApiUtil apiUtil;
 
     @Autowired
     private CategoryRepositroy categoryRepositroy;
@@ -111,13 +108,11 @@ public class CategoryController {
   public String update(@ModelAttribute("category") Category category, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "category/update";
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
+    User jwt = (User) request.getSession().getAttribute("user");
     if (jwt == null) {
       return "";
     }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<Category> reqt = new HttpEntity<>(category, headers);
+    HttpEntity<Category> reqt = new HttpEntity<>(category);
     ResponseEntity<Category> response = restTemplate.exchange(
         url,
         HttpMethod.PUT,
@@ -132,17 +127,12 @@ public class CategoryController {
   public String deleteById(@RequestParam("id") int id,HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "category/delete/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> req = new HttpEntity<>(headers);
+    User jwt = (User) request.getSession().getAttribute("user");
+
     ResponseEntity response = restTemplate.exchange(
         url,
         HttpMethod.DELETE,
-        req,
+        null,
         String.class
     );
     response.getStatusCode();

@@ -30,6 +30,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -49,6 +51,7 @@ public class UserController {
 
   @Value("${server.IP}")
   private String hostName;
+
 //  @Autowired
 //  private EmailService emailService;
 
@@ -59,28 +62,23 @@ public class UserController {
     RestTemplate restTemplate = new RestTemplate();
 
     HttpEntity<JwtAuthRequestDto> req = new HttpEntity<>(new JwtAuthRequestDto().builder()
-        .email(springUser.getUser().getEmail()).password(springUser.getUser().getPassword()).build());
+        .email(springUser.getUser().getEmail()).build());
 
-    ResponseEntity<JwtAuthResponseDto> response = restTemplate.exchange(
+    ResponseEntity<User> response = restTemplate.exchange(
         url,
         HttpMethod.POST,
         req,
-        JwtAuthResponseDto.class);
-    JwtAuthResponseDto user = response.getBody();
-    request.getSession().setAttribute("user",user);
-    if (user == null) {
+        User.class);
+
+    User user = response.getBody();
+
+    if(user==null || !springUser.getUser().getPassword().equals(user.getPassword())){
       return "redirect:/login";
     }
+    request.getSession().setAttribute("user",user);
+
     return "redirect:/";
 
-  }
-
-  @GetMapping("/register")
-  public String registerForm(ModelMap map) {
-
-    List<User> all = userRepository.findAll();
-    map.addAttribute("users", all);
-    return "registration";
   }
 
   @PostMapping("/register")
@@ -97,6 +95,9 @@ public class UserController {
     File picture = new File(imageUploadDir + File.separator + fileName);
     file.transferTo(picture);
     user.setPicUrl(fileName);
+    user.setProfileCreated(new Date());
+
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<User> request = new HttpEntity<>(user);
 

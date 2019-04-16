@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +31,9 @@ public class Post  {
   private Category category;
   @ManyToOne
   private User user;
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
+  @Column
+  private Date postDate;
 }
 

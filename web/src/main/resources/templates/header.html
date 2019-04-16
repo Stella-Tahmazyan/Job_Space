@@ -1,91 +1,103 @@
-<header  xmlns:th="http://www.thymeleaf.org">
-        <div class="header">
-        <nav class="navbar  fixed-top navbar-site navbar-light bg-light navbar-expand-md"
-             role="navigation">
-                <div class="container">
+<header xmlns:th="http://www.thymeleaf.org">
+  <div class="header">
+    <nav class="navbar  fixed-top navbar-site navbar-light bg-light navbar-expand-md"
+         role="navigation">
+      <div class="container">
 
-                        <div class="navbar-identity">
-
-
-                                <a href="/" class="navbar-brand logo logo-title">
-
-        			</span>Job<span>Space </span> </a>
+        <div class="navbar-identity">
 
 
-                                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggler pull-right"
-                                        type="button">
+          <a href="/" class="navbar-brand logo logo-title">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>
-
-
-                                </button>
+            </span>Job<span>Space </span> </a>
 
 
-                                <button
-                                        class="flag-menu country-flag d-block d-md-none btn btn-secondary hidden pull-right"
-                                        href="#select-country" data-toggle="modal">	<span class="flag-icon flag-icon-us"></span>
-                                        <span class="caret"></span>
-                                </button>
+          <button data-target=".navbar-collapse" data-toggle="collapse"
+                  class="navbar-toggler pull-right"
+                  type="button">
 
-                        </div>
-
-
-
-                        <div class="navbar-collapse collapse">
-                               <ul class="nav navbar-nav ml-auto navbar-right">
-                                        <li class="dropdown no-arrow nav-item">
-                                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-
-                                                <span th:if="${currentUser!=null}" th:text="${currentUser.user.name}"></span>
-                                                        <i class="fas fa-user"></i>  <i class="fas fa-sort-down"></i></a>
-                                                <ul
-                                                        class="dropdown-menu user-menu dropdown-menu-right">
-                                                        <li class="active dropdown-item">
-                                                                <a href="/account"><i class="icon-home"></i> Personal Account
-
-                                                        </a>
-                                                        <li>
-                                                        <!--<span th:if="${userik!=null}" th:text="${userik.username}"> </span>-->
-
-                                                </li>
-                                                        </li>
-                                                        <li class="dropdown-item"><a href="/login"><i class="icon-th-thumb"></i> Login </a>
-                                                        </li>
-                                                        <li class="dropdown-item"><a href="/register"><i class="icon-heart"></i> Registration </a>
-                                                        </li>
-                                                        <li class="dropdown-item"><a href="/addCategory"><i class="icon-heart"></i> Add cat </a>
-                                                        </li>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30"
+                 focusable="false"><title>Menu</title>
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/>
+            </svg>
 
 
-                                                </ul>
-                                        </li>
-                                        <li class="postadd nav-item"><a class="btn btn-block   btn-border btn-post btn-danger nav-link" href="post-ads.html">Post Free Add</a>
-                                        </li>
-                                        <li class="dropdown  lang-menu nav-item">
-                                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="lang-title" th:text="#{lang.langName}"></span>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right user-menu" role="menu">
-                                                        <li class="dropdown-item">
-                                                                <a href="?lang=en"><span class="lang-name" th:text="#{lang.langNameEn}"></span></a>
+          </button>
 
-                                                        </li>
-                                                        <li class="dropdown-item">
-                                                                <a href="?lang=hy"><span class="lang-name" th:text="#{lang.langNameArm}"></span></a>
-                                                                <!--<a class="active">-->
 
-                                                                <!--<span class="lang-name">English</span></a>-->
-                                                        </li>
+          <button
+              class="flag-menu country-flag d-block d-md-none btn btn-secondary hidden pull-right"
+              href="#select-country" data-toggle="modal"><span
+              class="flag-icon flag-icon-us"></span>
+            <span class="caret"></span>
+          </button>
 
-                                                </ul>
-                                        </li>
-                                </ul>
-                        </div>
-                        <!--/.nav-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-        </nav>
-</div>
+        </div>
+
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ml-auto navbar-right">
+            <li class="dropdown no-arrow nav-item">
+              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+
+                <span th:if="${currentUser!=null}" th:text="${currentUser.name}"></span>
+                <i class="fas fa-user"></i> <i class="fas fa-sort-down"></i></a>
+              <ul
+                  class="dropdown-menu user-menu dropdown-menu-right">
+                <li class="active dropdown-item">
+                  <a href="/account"><i class="icon-home"></i> Personal Account
+
+                  </a>
+                <li>
+                  <!--<span th:if="${userik!=null}" th:text="${userik.username}"> </span>-->
+
+                </li>
+                </li>
+                <li class="dropdown-item"><a href="/login"><i class="icon-th-thumb"></i> Login </a>
+                </li>
+                <li class="dropdown-item"><a href="/register"><i class="icon-heart"></i>
+                  Registration </a>
+                </li>
+                <li class="dropdown-item"><a href="/addCategory"><i class="icon-heart"></i> Add cat
+                </a>
+                </li>
+
+
+              </ul>
+            </li>
+            <li class="postadd nav-item"><a
+                class="btn btn-block   btn-border btn-post btn-danger nav-link"
+                th:href="@{/postAds}">Post Free Add</a>
+            </li>
+            <li class="dropdown  lang-menu nav-item">
+              <button type="button" class="btn btn-secondary dropdown-toggle"
+                      data-toggle="dropdown">
+                <span class="lang-title" th:text="#{lang.langName}"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right user-menu" role="menu">
+                <li class="dropdown-item">
+                  <a href="?lang=en"><span class="lang-name"
+                                           th:text="#{lang.langNameEn}"></span></a>
+
+                </li>
+                <li class="dropdown-item">
+                  <a href="?lang=hy"><span class="lang-name"
+                                           th:text="#{lang.langNameArm}"></span></a>
+                  <!--<a class="active">-->
+
+                  <!--<span class="lang-name">English</span></a>-->
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </div>
 </header>
 <!-- /.header -->
 

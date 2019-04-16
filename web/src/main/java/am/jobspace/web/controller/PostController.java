@@ -2,7 +2,6 @@ package am.jobspace.web.controller;
 
 import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.Post;
-import am.jobspace.web.component.ApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,8 +21,6 @@ public class PostController {
   @Value("${server.IP}")
   private String hostName;
 
-  @Autowired
-  private ApiUtil apiUtil;
 
   @GetMapping("get")
   public String getById(@RequestParam("id") int id, HttpServletRequest request) {
@@ -33,13 +30,10 @@ public class PostController {
     if (jwt == null) {
       return "";
     }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> reqt = new HttpEntity<>(headers);
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
-        reqt,
+        null,
         new ParameterizedTypeReference<Post>() {
         });
     Post post = response.getBody();
@@ -68,20 +62,14 @@ public class PostController {
   }
 
   @GetMapping("getByCategory")
-  public String get(@RequestParam("id") int id, HttpServletRequest request) {
+  public String get(@RequestParam("id") int id) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/get/category/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> reqt = new HttpEntity<>(headers);
+
     ResponseEntity<List<Post>> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
-        reqt,
+        null,
         new ParameterizedTypeReference<List<Post>>() {
         });
     List<Post> posts = response.getBody();
@@ -90,16 +78,11 @@ public class PostController {
   }
 
   @GetMapping("update")
-  public String update(@ModelAttribute("post") Post post, HttpServletRequest request) {
+  public String update(@ModelAttribute("post") Post post) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/update";
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<Post> reqt = new HttpEntity<>(post, headers);
+
+    HttpEntity<Post> reqt = new HttpEntity<>(post);
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.PUT,
@@ -111,20 +94,14 @@ public class PostController {
   }
 
   @GetMapping("delete")
-  public String deleteById(@RequestParam("id") int id, HttpServletRequest request) {
+  public String deleteById(@RequestParam("id") int id) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/delete/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> req = new HttpEntity<>(headers);
+
     ResponseEntity response = restTemplate.exchange(
         url,
         HttpMethod.DELETE,
-        req,
+        null,
         String.class
     );
     response.getStatusCode();
