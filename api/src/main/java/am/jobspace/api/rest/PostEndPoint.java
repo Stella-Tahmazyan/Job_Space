@@ -1,12 +1,18 @@
 package am.jobspace.api.rest;
 
 import am.jobspace.common.model.Post;
+import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.PostRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +35,12 @@ public class PostEndPoint {
           .ok(allCategory.get());
     }
     return ResponseEntity.notFound().build();
+  }
+
+  @PostMapping("add")
+  public ResponseEntity add(@RequestBody Post post) {
+    postRepository.save(post);
+    return ResponseEntity.ok(post);
   }
 
   @GetMapping("get/all")

@@ -1,17 +1,26 @@
 package am.jobspace.web.controller;
 
+import am.jobspace.common.model.Images;
 import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.Post;
-import am.jobspace.web.component.ApiUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,24 +31,51 @@ public class PostController {
   @Value("${server.IP}")
   private String hostName;
 
-  @Autowired
-  private ApiUtil apiUtil;
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
+
+  @PostMapping("add")
+  public String add(@ModelAttribute Post post, BindingResult bindingResult,
+      @RequestParam("picture") MultipartFile[] files) throws IOException {
+//    if (bindingResult.hasErrors()) {
+//      return "post-ads";
+//    }
+    String url = hostName + "post/add";
+
+    for (MultipartFile uploadedFile : files) {
+      if (!StringUtils.isEmpty(uploadedFile.getOriginalFilename())) {
+        String fileName = System.currentTimeMillis() + "_" + uploadedFile.getOriginalFilename();
+        File picture = new File(imageUploadDir + File.separator + fileName);
+        uploadedFile.transferTo(picture);
+        post.getImages()
+            .add(new Images().builder().picUrl(fileName).uploadDate(new Date()).build());
+      }
+    }
+
+    RestTemplate restTemplate = new RestTemplate();
+    HttpEntity<Post> request = new HttpEntity<>(post);
+
+    ResponseEntity<Post> response = restTemplate.exchange(
+        url,
+        HttpMethod.POST,
+        request,
+        Post.class);
+
+    if (response.getStatusCode().equals(HttpStatus.CONFLICT)) {
+      return "redirect:/register";
+    }
+    return "redirect:/login";
+
+  }
 
   @GetMapping("get")
   public String getById(@RequestParam("id") int id, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/get/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> reqt = new HttpEntity<>(headers);
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
-        reqt,
+        null,
         new ParameterizedTypeReference<Post>() {
         });
     Post post = response.getBody();
@@ -71,17 +107,10 @@ public class PostController {
   public String get(@RequestParam("id") int id, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/get/category/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> reqt = new HttpEntity<>(headers);
     ResponseEntity<List<Post>> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
-        reqt,
+        null,
         new ParameterizedTypeReference<List<Post>>() {
         });
     List<Post> posts = response.getBody();
@@ -93,17 +122,10 @@ public class PostController {
   public String update(@ModelAttribute("post") Post post, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/update";
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<Post> reqt = new HttpEntity<>(post, headers);
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.PUT,
-        reqt,
+        null,
         new ParameterizedTypeReference<Post>() {
         });
     post = response.getBody();
@@ -114,17 +136,10 @@ public class PostController {
   public String deleteById(@RequestParam("id") int id, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/delete/" + id;
-    JwtAuthResponseDto jwt = (JwtAuthResponseDto) request.getSession().getAttribute("user");
-    if (jwt == null) {
-      return "";
-    }
-    HttpHeaders headers = new HttpHeaders();
-    apiUtil.setHeader(jwt.getToken(), headers);
-    HttpEntity<String> req = new HttpEntity<>(headers);
     ResponseEntity response = restTemplate.exchange(
         url,
         HttpMethod.DELETE,
-        req,
+        null,
         String.class
     );
     response.getStatusCode();
