@@ -40,10 +40,6 @@ public class Post {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
   private Date postDate;
-  @Column
-  private Double price;
-//  @OneToMany
-//  private Images images;
   @OneToMany
   @JoinColumn(name = "pic_id",referencedColumnName = "id")
   private Set<Images> images=new HashSet<>();

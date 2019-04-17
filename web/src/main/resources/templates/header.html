@@ -67,7 +67,7 @@
 
               </ul>
             </li>
-            <li class="postadd nav-item"><a
+            <li class="postadd nav-item"th:if="${currentUser!=null}"><a
                 class="btn btn-block   btn-border btn-post btn-danger nav-link"
                 th:href="@{/postAds}">Post Free Add</a>
             </li>

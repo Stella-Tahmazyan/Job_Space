@@ -3,6 +3,7 @@ package am.jobspace.api.rest;
 import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
+import am.jobspace.common.repository.ImageRepository;
 import am.jobspace.common.repository.PostRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -20,6 +22,8 @@ import java.util.Optional;
 @RequestMapping("/post")
 public class PostEndPoint {
 
+  @Autowired
+  private ImageRepository imageRepository;
   @Autowired
   private PostRepository postRepository;
 
@@ -39,6 +43,7 @@ public class PostEndPoint {
 
   @PostMapping("add")
   public ResponseEntity add(@RequestBody Post post) {
+    imageRepository.saveAll(post.getImages());
     postRepository.save(post);
     return ResponseEntity.ok(post);
   }

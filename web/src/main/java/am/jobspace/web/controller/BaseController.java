@@ -2,6 +2,7 @@ package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
 import am.jobspace.common.model.JwtAuthResponseDto;
+import am.jobspace.common.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -21,8 +22,8 @@ public class BaseController {
   private String hostName;
 
   @ModelAttribute("currentUser")
-  public JwtAuthResponseDto login(HttpServletRequest request) {
-    return (JwtAuthResponseDto) request.getSession().getAttribute("user");
+  public User login(HttpServletRequest request) {
+    return (User) request.getSession().getAttribute("user");
   }
 
   @ModelAttribute("categories")

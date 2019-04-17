@@ -16,44 +16,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationTokenFilter{}
+//    extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+//    @Autowired
+//    private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final String requestHeader = request.getHeader(tokenHeader);
-
-        String username = null;
-        String authToken = null;
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
-            authToken = requestHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(authToken);
-            } catch (Exception e) {
-                logger.error(e);
-            }
-        } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
-        }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-//            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+//    @Autowired
+//    private JwtTokenUtil jwtTokenUtil;
 //
-//            if (jwtTokenUtil.validateToken(authToken, userDetails.getUsername())) {
-//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//    @Value("${jwt.header}")
+//    private String tokenHeader;
+//
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+//        final String requestHeader = request.getHeader(tokenHeader);
+//
+//        String username = null;
+//        String authToken = null;
+//        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
+//            authToken = requestHeader.substring(7);
+//            try {
+//                username = jwtTokenUtil.getUsernameFromToken(authToken);
+//            } catch (Exception e) {
+//                logger.error(e);
 //            }
-        }
-
-        chain.doFilter(request, response);
-    }
-}
+//        } else {
+//            logger.warn("couldn't find bearer string, will ignore the header");
+//        }
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//
+////            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+////
+////            if (jwtTokenUtil.validateToken(authToken, userDetails.getUsername())) {
+////                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+////                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+////                SecurityContextHolder.getContext().setAuthentication(authentication);
+////            }
+//        }
+//
+//        chain.doFilter(request, response);
+//    }
+//}

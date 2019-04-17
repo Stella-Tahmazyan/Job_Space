@@ -51,33 +51,24 @@ public class UserController {
   @GetMapping("/loginSuccess")
   public String loginSuccess(@AuthenticationPrincipal
       SpringUser springUser,HttpServletRequest request ) {
-    String url = hostName+"auth";
+     String url = hostName+"auth";
     RestTemplate restTemplate = new RestTemplate();
 
     HttpEntity<JwtAuthRequestDto> req = new HttpEntity<>(new JwtAuthRequestDto().builder()
         .email(springUser.getUser().getEmail()).password(springUser.getUser().getPassword()).build());
 
-    ResponseEntity<JwtAuthResponseDto> response = restTemplate.exchange(
+    ResponseEntity<User> response = restTemplate.exchange(
         url,
         HttpMethod.POST,
         req,
-        JwtAuthResponseDto.class);
-    JwtAuthResponseDto user = response.getBody();
+        User.class);
+    User user = response.getBody();
     request.getSession().setAttribute("user",user);
     if (user == null) {
       return "redirect:/login";
     }
     return "redirect:/";
 
-  }
-
-  @GetMapping("/register")
-  public String registerForm(ModelMap map) {
-
-    List<User> all = userRepository.findAll();
-    map.addAttribute("users", all);
-    map.addAttribute("user", new User());
-    return "registration";
   }
 
   @PostMapping("/register")

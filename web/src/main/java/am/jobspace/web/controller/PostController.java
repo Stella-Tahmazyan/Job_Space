@@ -4,6 +4,7 @@ import am.jobspace.common.model.Images;
 import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.Post;
 
+import am.jobspace.common.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -35,13 +36,16 @@ public class PostController {
   private String imageUploadDir;
 
   @PostMapping("add")
-  public String add(@ModelAttribute Post post, BindingResult bindingResult,
+  public String add(@ModelAttribute Post post,HttpServletRequest req, BindingResult bindingResult,
       @RequestParam("picture") MultipartFile[] files) throws IOException {
 //    if (bindingResult.hasErrors()) {
 //      return "post-ads";
 //    }
     String url = hostName + "post/add";
-
+    User user= (User) req.getSession().getAttribute("user");
+     user=new User().builder().id(user.getId()).build();
+     post.setPostDate(new Date());
+    post.setUser(user);
     for (MultipartFile uploadedFile : files) {
       if (!StringUtils.isEmpty(uploadedFile.getOriginalFilename())) {
         String fileName = System.currentTimeMillis() + "_" + uploadedFile.getOriginalFilename();
@@ -51,20 +55,15 @@ public class PostController {
             .add(new Images().builder().picUrl(fileName).uploadDate(new Date()).build());
       }
     }
-
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<Post> request = new HttpEntity<>(post);
-
-    ResponseEntity<Post> response = restTemplate.exchange(
+    restTemplate.exchange(
         url,
         HttpMethod.POST,
         request,
         Post.class);
 
-    if (response.getStatusCode().equals(HttpStatus.CONFLICT)) {
-      return "redirect:/register";
-    }
-    return "redirect:/login";
+    return "redirect:/postAds";
 
   }
 
