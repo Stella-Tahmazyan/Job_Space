@@ -1,8 +1,8 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
-import am.jobspace.common.model.JwtAuthResponseDto;
-import am.jobspace.common.model.Post;
+
+import am.jobspace.common.model.Country;
 import am.jobspace.common.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,7 +39,6 @@ public class BaseController {
   public User login(HttpServletRequest request) {
     User user = (User) request.getSession().getAttribute("user");
     if (user != null) {
-
       user.setActiveDate(new Date());
       RestTemplate restTemplate = new RestTemplate();
       String url = hostName + "/user/update";

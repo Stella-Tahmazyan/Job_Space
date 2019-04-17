@@ -1,7 +1,8 @@
-<div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
      layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
   <div th:insert="menu.html"></div>
-    <div style="text-align: center;
+  <div style="text-align: center;
     font-size: 24px;" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
   <input type="hidden" id="token" th:value="${token}">
 
@@ -31,7 +32,7 @@
           <div class="col-xl-12  box-title no-border">
             <div class="inner">
               <h2><span>Browse by</span>
-              Category</h2>
+                Category</h2>
             </div>
           </div>
 
@@ -67,13 +68,12 @@
             <nav class="slider-nav has-white-bg nav-narrow-svg">
               <a class="prev">
                 <span class="nav-icon-wrap"></span>
-
               </a>
               <a class="next">
                 <span class="nav-icon-wrap"></span>
               </a>
             </nav>
-
+            <a th:href="@{/post/get(id=23)}">detail</a>
             <div class="no-margin featured-list-slider ">
               <div class="item" th:each="cat : ${categories}">
                 <a href="#">

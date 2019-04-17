@@ -1,9 +1,7 @@
 package am.jobspace.web.controller;
 
 
-import am.jobspace.common.model.Category;
 import am.jobspace.common.model.JwtAuthRequestDto;
-import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.UserRepository;
@@ -16,7 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -30,16 +27,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class UserController {
 
 
-    @Value("${image.upload.dir}")
-    private String imageUploadDir;
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -57,8 +52,8 @@ public class UserController {
 
   @GetMapping("/loginSuccess")
   public String loginSuccess(@AuthenticationPrincipal
-      SpringUser springUser,HttpServletRequest request ) {
-    String url = hostName+"auth";
+      SpringUser springUser, HttpServletRequest request) {
+    String url = hostName + "auth";
     RestTemplate restTemplate = new RestTemplate();
 
     HttpEntity<JwtAuthRequestDto> req = new HttpEntity<>(new JwtAuthRequestDto().builder()
@@ -71,26 +66,23 @@ public class UserController {
         User.class);
 
     User user = response.getBody();
-
-    if(user==null || !springUser.getUser().getPassword().equals(user.getPassword())){
+    if (user == null || !springUser.getUser().getPassword().equals(user.getPassword())) {
+      request.getSession().setAttribute("user", user);
       return "redirect:/login";
     }
-    request.getSession().setAttribute("user",user);
-
+    request.getSession().setAttribute("user", user);
     return "redirect:/";
 
   }
 
   @PostMapping("/register")
-  public String register(RedirectAttributes redirectAttributes,
-      @ModelAttribute("user")
-      @Valid User user, BindingResult bindingResult,
-      @RequestParam("picture") MultipartFile file) throws IOException {
+  public String register(@ModelAttribute("user") @Valid User user,
+      BindingResult bindingResult, @RequestParam("picture") MultipartFile file) throws IOException {
     if (bindingResult.hasErrors()) {
       return "registration";
 
     }
-    String url = hostName+"user/add";
+    String url = hostName + "user/add";
     String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
     File picture = new File(imageUploadDir + File.separator + fileName);
     file.transferTo(picture);
@@ -106,7 +98,7 @@ public class UserController {
         HttpMethod.POST,
         request,
         User.class);
-    if(response.getStatusCode().equals(HttpStatus.CONFLICT)){
+    if (response.getStatusCode().equals(HttpStatus.CONFLICT)) {
       return "redirect:/register";
     }
     return "redirect:/login";
@@ -118,7 +110,6 @@ public class UserController {
 //    userRepository.findAll();
 //    return "addUser";
 //  }
-
 
   @GetMapping("/getImage")
   public void getImageAsByteArray(HttpServletResponse response,

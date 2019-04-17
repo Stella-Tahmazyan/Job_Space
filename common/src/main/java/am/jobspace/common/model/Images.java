@@ -9,36 +9,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.Date;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "post")
-public class Post {
+@Table(name = "images")
+public class Images {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column
-  private String title;
-  @Column
-  private String description;
-  @ManyToOne
-  private Category category;
-  @ManyToOne
-  private User user;
 
+  @Column
+  private String picUrl;
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
-  private Date postDate;
-  @OneToMany
-  @JoinColumn(name = "pic_id",referencedColumnName = "id")
-  private Set<Images> images=new HashSet<>();
-}
+  private Date uploadDate;
 
+}

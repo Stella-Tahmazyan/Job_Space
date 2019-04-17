@@ -9,6 +9,8 @@
 
           <a href="/" class="navbar-brand logo logo-title">
 
+        			<span class="logo-icon"><i class="icon icon-search-1 ln-shadow-logo "></i>
+
             </span>Job<span>Space </span> </a>
 
 
@@ -66,7 +68,7 @@
 
               </ul>
             </li>
-            <li class="postadd nav-item"><a
+            <li class="postadd nav-item" th:if="${currentUser!=null}"><a
                 class="btn btn-block   btn-border btn-post btn-danger nav-link"
                 th:href="@{/postAds}">Post Free Add</a>
             </li>

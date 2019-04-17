@@ -2,8 +2,6 @@ package am.jobspace.api.security;
 
 
 
-import java.util.Optional;
-
 //@Service
 public class CurrentUserDetailServiceImpl{}
 //    implements UserDetailsService {

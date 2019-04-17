@@ -28,6 +28,16 @@ public class JwtAuthenticationTokenFilter{}
 //    @Value("${jwt.header}")
 //    private String tokenHeader;
 //
+
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+
+//    @Autowired
+//    private JwtTokenUtil jwtTokenUtil;
+//
+//    @Value("${jwt.header}")
+//    private String tokenHeader;
+//
 //    @Override
 //    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 //        final String requestHeader = request.getHeader(tokenHeader);

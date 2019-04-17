@@ -1,12 +1,20 @@
 package am.jobspace.api.rest;
 
 import am.jobspace.common.model.Post;
+import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
+import am.jobspace.common.repository.ImageRepository;
 import am.jobspace.common.repository.PostRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +22,8 @@ import java.util.Optional;
 @RequestMapping("/post")
 public class PostEndPoint {
 
+  @Autowired
+  private ImageRepository imageRepository;
   @Autowired
   private PostRepository postRepository;
 
@@ -23,12 +33,19 @@ public class PostEndPoint {
 
   @GetMapping("get/{id}")
   public ResponseEntity getById(@PathVariable("id") int id) {
-    Optional<Post> allCategory = postRepository.findById(id);
-    if (allCategory.isPresent()) {
+    Optional<Post> category = postRepository.findById(id);
+    if (category.isPresent()) {
       return ResponseEntity
-          .ok(allCategory.get());
+          .ok(category.get());
     }
     return ResponseEntity.notFound().build();
+  }
+
+  @PostMapping("add")
+  public ResponseEntity add(@RequestBody Post post) {
+    imageRepository.saveAll(post.getImages());
+    postRepository.save(post);
+    return ResponseEntity.ok(post);
   }
 
   @GetMapping("get/all")
@@ -43,6 +60,12 @@ public class PostEndPoint {
     List<Post> allCategory = postRepository.findAllByCategoryId(id);
     return ResponseEntity.ok(allCategory);
   }
+//
+//  @GetMapping("get/user/{id}")
+//  public ResponseEntity getByUser(@PathVariable("id") int id) {
+//    List<Post> allCategory = postRepository.findAllByUserId(id);
+//    return ResponseEntity.ok(allCategory);
+//  }
 
   @PutMapping("update")
   public ResponseEntity update(@RequestBody Post post) {

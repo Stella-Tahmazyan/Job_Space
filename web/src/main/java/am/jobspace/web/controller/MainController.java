@@ -1,13 +1,20 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
+import am.jobspace.common.model.Country;
+import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -37,9 +44,16 @@ public class MainController {
     return modelAndView;
   }
 
+  @GetMapping("postDetail")
+  public ModelAndView postDetail(@RequestParam("id") int id, ModelAndView modelAndView) {
+    modelAndView.setViewName("post-detail");
+    return modelAndView;
+  }
+
   @GetMapping("postAds")
-  public String postAds() {
-    return "post-ads";
+  public ModelAndView postAds(ModelAndView modelAndView) {
+    modelAndView.setViewName("post-ads");
+    return modelAndView;
   }
 
   @GetMapping("/worker")
