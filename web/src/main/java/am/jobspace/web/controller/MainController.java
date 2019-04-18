@@ -1,57 +1,72 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
-import am.jobspace.common.repository.AdsRepository;
+import am.jobspace.common.model.Country;
+import am.jobspace.common.model.Post;
+import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
-
 
 @Controller
 public class MainController {
 
-    @Value("${image.upload.dir}")
-    private String imageUploadDir;
-    @Autowired
-    private CategoryRepositroy categoryRepositroy;
-    @Autowired
-    private AdsRepository adsRepository;
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
+  @Autowired
+  private CategoryRepositroy categoryRepositroy;
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
+  @GetMapping("/login")
+  public String loginPage() {
+    return "login";
+  }
 
-    @GetMapping("/")
-    public String main(ModelMap map,@RequestParam(required=false,defaultValue="en",name="lang") String locale) {
+  @GetMapping("/")
+  public String main() {
+    return "index";
+  }
 
-            List<Category> cat=categoryRepositroy.findAllByLocale(locale);
-            map.addAttribute("categories",cat);
-                return "index";
-    }
+  @GetMapping("/register")
+  public ModelAndView registerForm(ModelAndView modelAndView) {
+    modelAndView.addObject("user", new User());
+    modelAndView.setViewName("registration");
+    return modelAndView;
+  }
 
-    @GetMapping("/worker")
-    public String workerPage() {
-        return "worker";
-    }
+  @GetMapping("postDetail")
+  public ModelAndView postDetail(@RequestParam("id") int id, ModelAndView modelAndView) {
+    modelAndView.setViewName("post-detail");
+    return modelAndView;
+  }
 
-    @GetMapping("/employer")
-    public String employerPage() {
-        return "employer";
-    }
+  @GetMapping("postAds")
+  public ModelAndView postAds(ModelAndView modelAndView) {
+    modelAndView.setViewName("post-ads");
+    return modelAndView;
+  }
 
+  @GetMapping("/worker")
+  public String workerPage(ModelMap map) {
+    List<Category> cat = categoryRepositroy.findAll();
+    map.addAttribute("categories", cat);
+    return "worker";
+  }
+
+  @GetMapping("/employer")
+  public String employerPage(ModelMap map) {
+    List<Category> cat = categoryRepositroy.findAll();
+    map.addAttribute("categories", cat);
+    return "employer";
+  }
 }

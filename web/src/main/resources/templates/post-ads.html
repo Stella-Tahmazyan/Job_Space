@@ -1,0 +1,407 @@
+<div class="main-container" xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+     layout:decorate="~{base_layout}" layout:fragment="~{body}">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 page-content">
+        <div class="inner-box category-content">
+          <h2 class="title-2 uppercase"><strong> <i class="icon-docs"></i> Post a Free Classified
+            Ad</strong></h2>
+
+          <div class="row">
+            <div class="col-sm-12">
+
+              <form class="form-horizontal" th:action="@{/post/add}" method="post"
+                    enctype="multipart/form-data">
+
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Category</label>
+                  <div class="col-sm-8">
+                    <select name="category.id" id="category-group" class="form-control">
+                      <option th:each="cat : ${categories}" th:value="${cat.id}"
+                              th:text="${cat.name}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Ad title</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" name="title" id="Adtitle"
+                           placeholder="Post title">
+                    <small id="" class="form-text text-muted">
+                      A great title needs at least 60 characters
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Describe ad</label>
+                  <div class="col-sm-8">
+                    <textarea class="form-control" name="description" rows="3">Describe what makes your ad unique</textarea>
+
+                  </div>
+                </div>
+
+                <!--<div class="col-sm-3">-->
+
+                <!--<div class="form-check">-->
+                <!--<label class="form-check-label">-->
+                <!--<input class="form-check-input" type="checkbox"> Negotiable-->
+                <!--</label>-->
+                <!--</div>-->
+
+                <!--</div>-->
+                <!--</div>-->
+
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Picture</label>
+                  <div class="col-lg-8" id="pic">
+                    <div class="mb10">
+                      <input id="input-upload-img1" type="file" class="file" name="picture"
+                             data-preview-file-type="text">
+                    </div>
+                    <div class="mb10 f" id="1" style="display: none">
+                      <input id="input-upload-img2" type="file" class="file" name="picture"
+                             data-preview-file-type="text">
+                    </div>
+                    <div class="mb10 f" id="2" style="display: none">
+                      <input id="input-upload-img3" type="file" class="file" name="picture"
+                             data-preview-file-type="text">
+                    </div>
+                    <div class="mb10 f" id="3" style="display: none">
+                      <input id="input-upload-img4" type="file" class="file" name="picture"
+                             data-preview-file-type="text">
+                    </div>
+                  </div>
+                  <div class="mb10">
+                    <span id="add"><i style="font-size: 33px"
+                                      class="fas fa-plus-circle"></i></span>
+                  </div>
+
+
+                </div>
+
+            <!-- Button  -->
+            <div class="form-group row">
+
+              <div class="col-sm-8">
+                <button id="button1id"  style="margin-left: 200px"
+                        class="btn btn-success btn-lg">Submit
+                </button>
+              </div>
+            </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.page-content -->
+
+    <div class="col-md-3 reg-sidebar">
+      <div class="reg-sidebar-inner text-center">
+        <div class="promo-text-box"><i class=" icon-picture fa fa-4x icon-color-1"></i>
+
+          <h3><strong>Post a Free Classified</strong></h3>
+
+          <p> Post your free online classified ads with us. Lorem ipsum dolor sit amet,
+            consectetur
+            adipiscing elit. </p>
+        </div>
+
+        <div class="card sidebar-card">
+          <div class="card-header uppercase">
+            <small><strong>How to sell quickly?</strong></small>
+          </div>
+          <div class="card-content">
+            <div class="card-body text-left">
+              <ul class="list-check">
+                <li> Use a brief title and description of the item</li>
+                <li> Make sure you post in the correct category</li>
+                <li> Add nice photos to your ad</li>
+                <li> Put a reasonable price</li>
+                <li> Check the item before publish</li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <!--/.reg-sidebar-->
+  </div>
+  <!-- /.row -->
+</div>
+
+
+<footer class="main-footer">
+  <div class="footer-content">
+    <div class="container">
+      <div class="row">
+
+        <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
+          <div class="footer-col">
+            <h4 class="footer-title">About us</h4>
+            <ul class="list-unstyled footer-nav">
+              <li><a href="#">About Company</a></li>
+              <li><a href="#">For Business</a></li>
+              <li><a href="#">Our Partners</a></li>
+              <li><a href="#">Press Contact</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="event-home.html">Events</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
+          <div class="footer-col">
+            <h4 class="footer-title">Help & Contact</h4>
+            <ul class="list-unstyled footer-nav">
+              <li><a href="#">
+                Stay Safe Online
+              </a></li>
+              <li><a href="#">
+                How to Sell</a></li>
+              <li><a href="#">
+                How to Buy
+              </a></li>
+              <li><a href="#">Posting Rules
+              </a></li>
+
+              <li><a href="#">
+                Promote Your Ad
+              </a></li>
+
+            </ul>
+          </div>
+        </div>
+
+        <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
+          <div class="footer-col">
+            <h4 class="footer-title">More From Us</h4>
+            <ul class="list-unstyled footer-nav">
+              <li><a href="faq.html">FAQ
+              </a></li>
+              <li><a href="blogs.html">Blog
+              </a></li>
+              <li><a href="#">
+                Popular Searches
+              </a></li>
+              <li><a href="#"> Site Map
+              </a></li>
+              <li><a href="#"> Customer Reviews
+              </a></li>
+
+
+            </ul>
+          </div>
+        </div>
+        <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
+          <div class="footer-col">
+            <h4 class="footer-title">Account</h4>
+            <ul class="list-unstyled footer-nav">
+              <li><a href="account-home.html"> Manage Account
+              </a></li>
+              <li><a href="login.html">Login
+              </a></li>
+              <li><a href="signup.html">Register
+              </a></li>
+              <li><a href="account-myads.html"> My ads
+              </a></li>
+              <li><a href="seller-profile.html"> Profile
+              </a></li>
+            </ul>
+          </div>
+        </div>
+        <div class=" col-xl-4 col-xl-4 col-md-4 col-12">
+          <div class="footer-col row">
+
+            <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
+              <div class="mobile-app-content">
+                <h4 class="footer-title">Mobile Apps</h4>
+                <div class="row ">
+                  <div class="col-6  ">
+                    <a class="app-icon" target="_blank" href="https://itunes.apple.com/">
+                      <span class="hide-visually">iOS app</span>
+                      <img src="images/site/app_store_badge.svg" alt="Available on the App Store">
+                    </a>
+                  </div>
+                  <div class="col-6  ">
+                    <a class="app-icon" target="_blank" href="https://play.google.com/store/">
+                      <span class="hide-visually">Android App</span>
+                      <img src="images/site/google-play-badge.svg" alt="Available on the App Store">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
+              <div class="hero-subscribe">
+                <h4 class="footer-title no-margin">Follow us on</h4>
+                <ul class="list-unstyled list-inline footer-nav social-list-footer social-list-color footer-nav-inline">
+                  <li><a class="icon-color fb" title="Facebook" data-placement="top"
+                         data-toggle="tooltip" href="#"><i class="fab fa-facebook-f"></i> </a></li>
+                  <li><a class="icon-color tw" title="Twitter" data-placement="top"
+                         data-toggle="tooltip" href="#"><i class="fab fa-twitter"></i> </a></li>
+                  <li><a class="icon-color gp" title="Google+" data-placement="top"
+                         data-toggle="tooltip" href="#"><i class="fab fa-google-plus-g"></i> </a>
+                  </li>
+                  <li><a class="icon-color lin" title="Linkedin" data-placement="top"
+                         data-toggle="tooltip" href="#"><i class="fab fa-linkedin"></i> </a></li>
+                  <li><a class="icon-color pin" title="Linkedin" data-placement="top"
+                         data-toggle="tooltip" href="#"><i class="fab fa-pinterest-p"></i> </a></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+
+        <div class="col-xl-12">
+          <div class=" text-center paymanet-method-logo">
+
+            <img src="images/site/payment/master_card.png" alt="img">
+            <img alt="img" src="images/site/payment/visa_card.png">
+            <img alt="img" src="images/site/payment/paypal.png">
+            <img alt="img" src="images/site/payment/american_express_card.png"> <img alt="img"
+                                                                                     src="images/site/payment/discover_network_card.png">
+            <img alt="img" src="images/site/payment/google_wallet.png">
+          </div>
+
+          <div class="copy-info text-center">
+            &copy; 2017 BootClassified. All Rights Reserved.
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Modal contactAdvertiser -->
+
+<div class="modal fade" id="contactAdvertiser" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class=" icon-mail-2"></i> Contact advertiser </h4>
+
+        <button type="button" class="close" data-dismiss="modal"><span
+            aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Name:</label>
+            <input class="form-control required" id="recipient-name" placeholder="Your name"
+                   data-placement="top" data-trigger="manual"
+                   data-content="Must be at least 3 characters long, and must only contain letters."
+                   type="text">
+          </div>
+          <div class="form-group">
+            <label for="sender-email" class="control-label">E-mail:</label>
+            <input id="sender-email" type="text"
+                   data-content="Must be a valid e-mail address (user@gmail.com)"
+                   data-trigger="manual"
+                   data-placement="top" placeholder="email@you.com" class="form-control email">
+          </div>
+          <div class="form-group">
+            <label for="recipient-Phone-Number" class="control-label">Phone Number:</label>
+            <input type="text" maxlength="60" class="form-control" id="recipient-Phone-Number">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Message <span
+                class="text-count">(300) </span>:</label>
+            <textarea class="form-control" id="message-text" placeholder="Your message here.."
+                      data-placement="top" data-trigger="manual"></textarea>
+          </div>
+          <div class="form-group">
+            <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not
+              valid. </p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success pull-right">Send message!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /.modal -->
+
+<!-- Modal contactAdvertiser -->
+
+<div class="modal fade" id="reportAdvertiser" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="fa icon-info-circled-alt"></i> There's something wrong
+          with this ads?
+        </h4>
+
+        <button type="button" class="close" data-dismiss="modal"><span
+            aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <label for="report-reason" class="control-label">Reason:</label>
+            <select name="report-reason" id="report-reason" class="form-control">
+              <option value="">Select a reason</option>
+              <option value="soldUnavailable">Item unavailable</option>
+              <option value="fraud">Fraud</option>
+              <option value="duplicate">Duplicate</option>
+              <option value="spam">Spam</option>
+              <option value="wrongCategory">Wrong category</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="recipient-email" class="control-label">Your E-mail:</label>
+            <input type="text" name="email" maxlength="60" class="form-control"
+                   id="recipient-email">
+          </div>
+          <div class="form-group">
+            <label for="message-text2" class="control-label">Message <span
+                class="text-count">(300) </span>:</label>
+            <textarea class="form-control" id="message-text2"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Send Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  $(document).ready(function () {
+    $('#add').click(function () {
+      if ($('#1').css('display') == 'none') {
+        $('#1').css('display', 'block')
+      }
+      else if ($('#2').css('display') == 'none') {
+        $('#2').css('display', 'block')
+      }
+      else if ($('#3').css('display') == 'none') {
+        $('#3').css('display', 'block')
+        $('#add').css('display', 'none')
+      }
+    })
+  })
+
+</script>
