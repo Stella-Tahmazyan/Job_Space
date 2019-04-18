@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +27,8 @@ public class Post {
   private String title;
   @Column
   private String description;
+  @Column
+  private String shortDescription;
   @ManyToOne
   private Category category;
   @ManyToOne
@@ -37,8 +38,15 @@ public class Post {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
   private Date postDate;
+  @Column
+  private String location;
+  @Column
+  private Double salary;
+
   @OneToMany
   @JoinColumn(name = "pic_id",referencedColumnName = "id")
   private Set<Images> images=new HashSet<>();
+  @Column
+  private boolean isSaved;
 }
 

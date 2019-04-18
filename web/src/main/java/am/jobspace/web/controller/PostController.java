@@ -1,32 +1,32 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Images;
-import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.Post;
 
 import am.jobspace.common.model.User;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 @Controller
-@RequestMapping("/post")
+//@RequestMapping("/post")
 public class PostController {
 
   @Value("${server.IP}")
@@ -35,7 +35,7 @@ public class PostController {
   @Value("${image.upload.dir}")
   private String imageUploadDir;
 
-  @PostMapping("add")
+  @PostMapping("post/add")
   public String add(@ModelAttribute Post post, HttpServletRequest req, BindingResult bindingResult,
       @RequestParam("picture") MultipartFile[] files) throws IOException {
 //    if (bindingResult.hasErrors()) {
@@ -70,8 +70,9 @@ public class PostController {
 
   }
 
-  @GetMapping("get")
-  public String getById(@RequestParam("id") int id, HttpServletRequest request) {
+  @GetMapping("/getPost")
+  public String getById(@RequestParam("id") int id, RedirectAttributes redirectAttributes,
+      ModelMap modelMap) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/get/" + id;
 
@@ -82,14 +83,16 @@ public class PostController {
         new ParameterizedTypeReference<Post>() {
         });
     Post post = response.getBody();
+
     if (post == null) {
       return "redirect:/";
     }
-
+    modelMap.addAttribute("post", post);
+    modelMap.addAttribute("isSaved",post.isSaved());
     return "post-detail";
   }
 
-  @GetMapping("get/all")
+  @GetMapping("getPost/all")
   public String getAll() {
     RestTemplate restTemplate = new RestTemplate();
 
@@ -109,7 +112,7 @@ public class PostController {
     return "";
   }
 
-  @GetMapping("getByCategory")
+  @GetMapping("/getPostByCategory")
   public String get(@RequestParam("id") int id) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/get/category/" + id;
@@ -124,22 +127,39 @@ public class PostController {
     return "redirect:/";
   }
 
-  @GetMapping("update")
+  @GetMapping("updatePost")
   public String update(@ModelAttribute("post") Post post) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/update";
-
+    HttpEntity<Post> httpEntity = new HttpEntity<>(post);
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.PUT,
-        null,
+        httpEntity,
         new ParameterizedTypeReference<Post>() {
         });
     post = response.getBody();
     return "redirect:/";
   }
 
-  @GetMapping("delete")
+  @GetMapping("updatePost/saved")
+  public ModelAndView updateSaved(@RequestParam("id") int id, @RequestParam("isSaved") int isSaved,ModelAndView modelMap) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = hostName + "post/update/saved/" + id + "/" + isSaved;
+    ResponseEntity<Post> response = restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<Post>() {
+        });
+    Post post = response.getBody();
+    modelMap.addObject("isSAved",post.isSaved());
+
+//    post = response.getBody();
+    return modelMap;
+  }
+
+  @GetMapping("deletePost")
   public String deleteById(@RequestParam("id") int id) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "post/delete/" + id;

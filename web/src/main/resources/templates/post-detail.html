@@ -1,355 +1,348 @@
 <div class="main-container" xmlns:th="http://www.thymeleaf.org"
      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-     layout:decorate="~{base_layout}" layout:fragment="~{body}"th:remove="tag" >
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
+     layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <nav aria-label="breadcrumb" role="navigation" class="pull-left">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><i class="icon-home fa"></i></a></li>
+            <li class="breadcrumb-item"><a href="category.html">All Ads</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${post.category.name}">
+            </li>
+          </ol>
+        </nav>
 
-          <nav aria-label="breadcrumb" role="navigation" class="pull-left">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#"><i class="icon-home fa"></i></a></li>
-              <li class="breadcrumb-item"><a href="category.html">All Ads</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Electronics</li>
-            </ol>
-          </nav>
 
+        <div class="pull-right backtolist"><a href="sub-category-sub-location.html"> <i
+            class="fa fa-angle-double-left"></i> Back to Results</a></div>
 
-          <div class="pull-right backtolist"><a href="sub-category-sub-location.html"> <i
-              class="fa fa-angle-double-left"></i> Back to Results</a></div>
-
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9 page-content col-thin-right">
-          <div class="inner inner-box ads-details-wrapper">
-            <h2> Xperiaâ„¢ C3 Dual available
-              <small class="label label-default adlistingtype">Company ad</small>
-            </h2>
-            <span class="info-row"> <span class="date"><i class=" icon-clock"> </i> Today 1:21 pm </span> - <span
-                class="category">Electronics </span>- <span class="item-location"><i
-                class="fa fa-map-marker-alt"></i> New York </span> </span>
-
-            <div class="ads-image">
-              <h1 class="pricetag"> $25</h1>
-              <ul class="bxslider">
-                <li><img src="images/item/tp-big/Image00014.jpg" alt="img"/></li>
-                <li><img src="images/item/tp-big/Image00015.jpg" alt="img"/></li>
-                <li><img src="images/item/tp-big/Image00013.jpg" alt="img"/></li>
-              </ul>
-              <div id="bx-pager">
-                <a class="thumb-item-link" data-slide-index="0" href=""><img
-                    src="images/item/tp/Image00014.jpg" alt="img"/></a>
-                <a class="thumb-item-link" data-slide-index="1" href=""><img
-                    src="images/item/tp/Image00015.jpg" alt="img"/></a>
-                <a class="thumb-item-link" data-slide-index="2" href=""><img
-                    src="images/item/tp/Image00013.jpg" alt="img"/></a>
-              </div>
-            </div>
-            <!--ads-image-->
-
-            <div class="Ads-Details">
-              <h5 class="list-title"><strong>Ads Detsils</strong></h5>
-
-              <div class="row">
-                <div class="ads-details-info col-md-8">
-                  <p>Sony Xperia C3 Dual smartphone with 5.50-inch 720x1280 display powered by 1.2GHz
-                    processor alongside 1GB RAM and 8-megapixel rear camera. </p>
-                  <h4>Camera and video</h4>
-                  <ul class="list-circle">
-                    <li>5 MP Front-facing camera (720p)</li>
-                    <li>Front flash LED</li>
-                    <li>Wide view front camera</li>
-                    <li>8 MP camera with auto focus</li>
-                    <li>HD video recording 1080 p</li>
-                    <li>Sony Exmor RS for mobile image sensor</li>
-                    <li>HDR (High Dynamic Range) for photos and videos</li>
-                    <li>Pulsed LED flash</li>
-                    <li>16x digital zoom</li>
-                    <li>Superior Auto â€“ automatic scene selection</li>
-                    <li>Geotagging â€“ add location info to your photos</li>
-                    <li>Object tracking â€“ lock focus on a specific object</li>
-                    <li>Red-eye reduction</li>
-                    <li>Image capture, supported file format: JPEG</li>
-                    <li>Image playback, supported file formats: BMP, GIF, JPEG, PNG; WebP</li>
-                    <li>Video capture, supported file formats: 3GPP, MP4</li>
-                    <li>Video playback, supported file formats: 3GPP, MP4, M4V, AvI, XVID, WEBM</li>
-                  </ul>
-                  <h4>Networks</h4>
-                  <ul>
-                    <li>GSM GPRS/EDGE (2G)</li>
-                    <li>UMTS HSPA (3G)</li>
-                    <li>LTE (4G)</li>
-                  </ul>
-                </div>
-                <div class="col-md-4">
-                  <aside class="panel panel-body panel-details">
-                    <ul>
-                      <li>
-                        <p class=" no-margin "><strong>Price:</strong> $ 2,45</p>
-                      </li>
-                      <li>
-                        <p class="no-margin"><strong>Type:</strong> Mobile Mobiles,For sale</p>
-                      </li>
-                      <li>
-                        <p class="no-margin"><strong>Location:</strong> New York </p>
-                      </li>
-                      <li>
-                        <p class=" no-margin "><strong>Condition:</strong> New</p>
-                      </li>
-                      <li>
-                        <p class="no-margin"><strong>Brand:</strong> Sony</p>
-                      </li>
-                    </ul>
-                  </aside>
-                  <div class="ads-action">
-                    <ul class="list-border">
-                      <li><a href="#"> <i class=" fa fa-user"></i> More ads by User </a></li>
-                      <li><a href="#"> <i class=" fa fa-heart"></i> Save ad </a></li>
-                      <li><a href="#"> <i class="fa fa-share-alt"></i> Share ad </a></li>
-                      <li><a href="#reportAdvertiser" data-toggle="modal"> <i
-                          class="fa icon-info-circled-alt"></i> Report abuse </a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="content-footer text-left"><a class="btn  btn-default" data-toggle="modal"
-                                                       href="#contactAdvertiser"><i
-                  class=" icon-mail-2"></i> Send a message </a> <a class="btn  btn-info"><i
-                  class=" icon-phone-1"></i> 01680 531 352 </a></div>
-            </div>
-          </div>
-          <!--/.ads-details-wrapper-->
-
-        </div>
-        <!--/.page-content-->
-
-        <div class="col-md-3  page-sidebar-right">
-          <aside>
-
-            <div class="card card-user-info sidebar-card">
-              <div class="block-cell user">
-
-                <div class="cell-media"><img src="images/users/5.jpg" alt=""></div>
-                <div class="cell-content">
-                  <h5 class="title">Posted by</h5>
-                  <span class="name"><a href="seller-profile.html">
-                    <!--<span th:text="${post.user.name+' ' +post.user.surname}"><-->
-                      <!--/span>-->
-                  </a></span>
-                  <span class="rating">top rated</span>
-                </div>
-              </div>
-              <div class="card-content">
-                <div class="card-body text-left">
-                  <div class="grid-col">
-                    <div class="col from">
-                      <i class="fas fa-map-marker-alt"></i>
-                      <span>Location</span>
-                    </div>
-                    <div class="col to">
-                      <span>USA</span>
-                    </div>
-                  </div>
-
-                  <div class="grid-col">
-                    <div class="col from">
-                      <i class="fas fa-user"></i>
-                      <span>Joined</span>
-                    </div>
-                    <div class="col to">
-                      <span>12 Mar 2012</span>
-                    </div>
-                  </div>
-
-                  <div class="grid-col">
-                    <div class="col from">
-                      <i class="fas fa-clock"></i>
-                      <span>Last Online</span>
-                    </div>
-                    <div class="col to">
-                      <span>3 Hours ago</span>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="ev-action">
-                  <a class="btn btn-success btn-block" data-toggle="modal" href="#contactAdvertiser">
-                    <i class=" icon-mail-2"></i> Contact User
-                  </a>
-                  <a class="btn  btn-info btn-block">
-                    <i class=" icon-phone-1"></i> 01680 531 352 </a>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="card sidebar-card">
-              <div class="card-header">Safety Tips for Buyers</div>
-              <div class="card-content">
-                <div class="card-body text-left">
-                  <ul class="list-check">
-                    <li>Meet seller at a public place</li>
-                    <li>Check the item before you buy</li>
-                    <li>Pay only after collecting the item</li>
-                  </ul>
-                  <p><a class="float-right" href="#"> Know more <i
-                      class="fa fa-angle-double-right"></i> </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <!--/.categories-list-->
-          </aside>
-        </div>
-        <!--/.page-side-bar-->
       </div>
     </div>
   </div>
-  <!-- /.main-container -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 page-content col-thin-right">
+        <div class="inner inner-box ads-details-wrapper">
+          <h2 th:text="${post.title}">
+            <small class="label label-default adlistingtype">Company ad</small>
+          </h2>
+          <span class="info-row"> <span class="date" th:text="${post.postDate}"><i
+              class=" icon-clock"> </i>  </span> - <span
+              class="category" th:text="${post.category.name}"> </span>- <span class="item-location"
+                                                                               th:text="${post.user.country}"><i
+              class="fa fa-map-marker-alt"></i></span> </span>
 
-  <footer class="main-footer">
-    <div class="footer-content">
-      <div class="container">
-        <div class="row">
-
-          <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
-            <div class="footer-col">
-              <h4 class="footer-title">About us</h4>
-              <ul class="list-unstyled footer-nav">
-                <li><a href="#">About Company</a></li>
-                <li><a href="#">For Business</a></li>
-                <li><a href="#">Our Partners</a></li>
-                <li><a href="#">Press Contact</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="event-home.html">Events</a></li>
-              </ul>
+          <div class="ads-image">
+            <ul class="bxslider">
+              <li><img src="images/item/tp-big/Image00014.jpg" alt="img"/></li>
+              <li><img src="images/item/tp-big/Image00015.jpg" alt="img"/></li>
+              <li><img src="images/item/tp-big/Image00013.jpg" alt="img"/></li>
+            </ul>
+            <div id="bx-pager">
+              <a class="thumb-item-link" data-slide-index="0" href=""><img
+                  src="images/item/tp/Image00014.jpg" alt="img"/></a>
+              <a class="thumb-item-link" data-slide-index="1" href=""><img
+                  src="images/item/tp/Image00015.jpg" alt="img"/></a>
+              <a class="thumb-item-link" data-slide-index="2" href=""><img
+                  src="images/item/tp/Image00013.jpg" alt="img"/></a>
             </div>
           </div>
+          <!--ads-image-->
 
-          <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
-            <div class="footer-col">
-              <h4 class="footer-title">Help & Contact</h4>
-              <ul class="list-unstyled footer-nav">
-                <li><a href="#">
-                  Stay Safe Online
-                </a></li>
-                <li><a href="#">
-                  How to Sell</a></li>
-                <li><a href="#">
-                  How to Buy
-                </a></li>
-                <li><a href="#">Posting Rules
-                </a></li>
+          <div class="Ads-Details">
+            <h5 class="list-title"><strong>Ads</strong></h5>
 
-                <li><a href="#">
-                  Promote Your Ad
-                </a></li>
-
-              </ul>
-            </div>
-          </div>
-
-          <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
-            <div class="footer-col">
-              <h4 class="footer-title">More From Us</h4>
-              <ul class="list-unstyled footer-nav">
-                <li><a href="faq.html">FAQ
-                </a></li>
-                <li><a href="blogs.html">Blog
-                </a></li>
-                <li><a href="#">
-                  Popular Searches
-                </a></li>
-                <li><a href="#"> Site Map
-                </a></li>
-                <li><a href="#"> Customer Reviews
-                </a></li>
-
-
-              </ul>
-            </div>
-          </div>
-          <div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">
-            <div class="footer-col">
-              <h4 class="footer-title">Account</h4>
-              <ul class="list-unstyled footer-nav">
-                <li><a href="account-home.html"> Manage Account
-                </a></li>
-                <li><a href="login.html">Login
-                </a></li>
-                <li><a href="signup.html">Register
-                </a></li>
-                <li><a href="account-myads.html"> My ads
-                </a></li>
-                <li><a href="seller-profile.html"> Profile
-                </a></li>
-              </ul>
-            </div>
-          </div>
-          <div class=" col-xl-4 col-xl-4 col-md-4 col-12">
-            <div class="footer-col row">
-
-              <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
-                <div class="mobile-app-content">
-                  <h4 class="footer-title">Mobile Apps</h4>
-                  <div class="row ">
-                    <div class="col-6  ">
-                      <a class="app-icon" target="_blank"  href="https://itunes.apple.com/">
-                        <span class="hide-visually">iOS app</span>
-                        <img src="images/site/app_store_badge.svg" alt="Available on the App Store">
-                      </a>
-                    </div>
-                    <div class="col-6  ">
-                      <a class="app-icon"  target="_blank" href="https://play.google.com/store/">
-                        <span class="hide-visually">Android App</span>
-                        <img src="images/site/google-play-badge.svg" alt="Available on the App Store">
-                      </a>
-                    </div>
-                  </div>
-                </div>
+            <div class="row">
+              <div class="ads-details-info col-md-8">
+                <input type="hidden" id="postId" th:value="${post.id}">
+                <p th:text="${post.shortDescription}"></p>
+                <h4>Ads Details</h4>
+                <ul class="list-circle">
+                  <li th:text="${post.description}"></li>
+                </ul>
               </div>
+              <div class="col-md-4">
+                <aside class="panel panel-body panel-details">
+                  <ul>
+                    <li>
+                      <p class=" no-margin " th:text="${post.salary}"><strong>Salary: </strong></p>
+                    </li>
+                    <li>
+                      <p class="no-margin" th:text="${post.category.name}">
+                        <strong>Category: </strong></p>
+                    </li>
+                    <li>
+                      <p class="no-margin" th:text="${post.location}"><strong>Location:</strong></p>
+                    </li>
+                  </ul>
+                </aside>
+                <div class="ads-action">
+                  <ul class="list-border">
+                    <li><a href="#"> <i class=" fa fa-user"></i> More ads by User </a></li>
 
-              <div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
-                <div class="hero-subscribe">
-                  <h4 class="footer-title no-margin">Follow us on</h4>
-                  <ul class="list-unstyled list-inline footer-nav social-list-footer social-list-color footer-nav-inline">
-                    <li><a class="icon-color fb" title="Facebook" data-placement="top" data-toggle="tooltip" href="#"><i class="fab fa-facebook-f"></i> </a></li>
-                    <li><a class="icon-color tw" title="Twitter" data-placement="top" data-toggle="tooltip" href="#"><i class="fab fa-twitter"></i> </a></li>
-                    <li><a class="icon-color gp" title="Google+" data-placement="top" data-toggle="tooltip" href="#"><i class="fab fa-google-plus-g"></i> </a></li>
-                    <li><a class="icon-color lin" title="Linkedin" data-placement="top" data-toggle="tooltip" href="#"><i class="fab fa-linkedin"></i> </a></li>
-                    <li><a class="icon-color pin" title="Linkedin" data-placement="top" data-toggle="tooltip" href="#"><i class="fab fa-pinterest-p"></i> </a></li>
+                      <a href="#" id="saved">
+
+                      <span th:if="${isSaved==true}" th:remove="tag"><li class="fa fa-heart"></li>
+                    </span>
+                    <span th:if="${isSaved==false}" th:remove="tag">
+                                            <li th:unless="${isSaved==false}" class="fa far-heart"></li>
+                    </span>
+
+
+                    Save ad
+                    </a>
+                    </li>
+                    <li><a href="#"> <i class="fa fa-share-alt"></i> Share ad </a></li>
+                    <li><a href="#reportAdvertiser" data-toggle="modal"> <i
+                        class="fa icon-info-circled-alt"></i> Report abuse </a></li>
                   </ul>
                 </div>
+              </div>
+            </div>
+            <div class="content-footer text-left"><a class="btn  btn-default" data-toggle="modal"
+                                                     href="#contactAdvertiser"><i
+                class=" icon-mail-2"></i> Send a message </a> <a class="btn  btn-info"><i
+                class=" icon-phone-1"></i> 01680 531 352 </a></div>
+          </div>
+        </div>
+        <!--/.ads-details-wrapper-->
 
+      </div>
+      <!--/.page-content-->
+
+      <div class="col-md-3  page-sidebar-right">
+        <aside>
+
+          <div class="card card-user-info sidebar-card">
+            <div class="block-cell user">
+
+              <div class="cell-media"><img src="images/users/5.jpg" alt=""></div>
+              <div class="cell-content">
+                <h5 class="title">Posted by</h5>
+                <span class="name"><a href="seller-profile.html">
+                    <!--<span th:text="${post.user.name+' ' +post.user.surname}"><-->
+                  <!--/span>-->
+                  </a></span>
+                <span class="rating">top rated</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-body text-left">
+                <div class="grid-col">
+                  <div class="col from">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Location</span>
+                  </div>
+                  <div class="col to">
+                    <span>USA</span>
+                  </div>
+                </div>
+
+                <div class="grid-col">
+                  <div class="col from">
+                    <i class="fas fa-user"></i>
+                    <span>Joined</span>
+                  </div>
+                  <div class="col to">
+                    <span>12 Mar 2012</span>
+                  </div>
+                </div>
+
+                <div class="grid-col">
+                  <div class="col from">
+                    <i class="fas fa-clock"></i>
+                    <span>Last Online</span>
+                  </div>
+                  <div class="col to">
+                    <span>3 Hours ago</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="ev-action">
+                <a class="btn btn-success btn-block" data-toggle="modal" href="#contactAdvertiser">
+                  <i class=" icon-mail-2"></i> Contact User
+                </a>
+                <a class="btn  btn-info btn-block">
+                  <i class=" icon-phone-1"></i> 01680 531 352 </a>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card sidebar-card">
+            <div class="card-header">Safety Tips for Buyers</div>
+            <div class="card-content">
+              <div class="card-body text-left">
+                <ul class="list-check">
+                  <li>Meet seller at a public place</li>
+                  <li>Check the item before you buy</li>
+                  <li>Pay only after collecting the item</li>
+                </ul>
+                <p><a class="float-right" href="#"> Know more <i
+                    class="fa fa-angle-double-right"></i> </a>
+                </p>
               </div>
             </div>
           </div>
-          <div style="clear: both"></div>
-
-          <div class="col-xl-12">
-            <div class=" text-center paymanet-method-logo">
-
-              <img src="images/site/payment/master_card.png" alt="img">
-              <img alt="img" src="images/site/payment/visa_card.png">
-              <img alt="img" src="images/site/payment/paypal.png">
-              <img alt="img" src="images/site/payment/american_express_card.png"> <img alt="img" src="images/site/payment/discover_network_card.png">
-              <img alt="img" src="images/site/payment/google_wallet.png">
-            </div>
-
-            <div class="copy-info text-center">
-              &copy; 2017 BootClassified. All Rights Reserved.
-            </div>
-
-          </div>
-
-        </div>
+          <!--/.categories-list-->
+        </aside>
       </div>
+      <!--/.page-side-bar-->
     </div>
-  </footer>
-  <!-- /.footer -->
+  </div>
+</div>
+<!-- /.main-container -->
+
+<!--<footer class="main-footer">-->
+<!--<div class="footer-content">-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+
+<!--<div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">-->
+<!--<div class="footer-col">-->
+<!--<h4 class="footer-title">About us</h4>-->
+<!--<ul class="list-unstyled footer-nav">-->
+<!--<li><a href="#">About Company</a></li>-->
+<!--<li><a href="#">For Business</a></li>-->
+<!--<li><a href="#">Our Partners</a></li>-->
+<!--<li><a href="#">Press Contact</a></li>-->
+<!--<li><a href="#">Careers</a></li>-->
+<!--<li><a href="event-home.html">Events</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">-->
+<!--<div class="footer-col">-->
+<!--<h4 class="footer-title">Help & Contact</h4>-->
+<!--<ul class="list-unstyled footer-nav">-->
+<!--<li><a href="#">-->
+<!--Stay Safe Online-->
+<!--</a></li>-->
+<!--<li><a href="#">-->
+<!--How to Sell</a></li>-->
+<!--<li><a href="#">-->
+<!--How to Buy-->
+<!--</a></li>-->
+<!--<li><a href="#">Posting Rules-->
+<!--</a></li>-->
+
+<!--<li><a href="#">-->
+<!--Promote Your Ad-->
+<!--</a></li>-->
+
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">-->
+<!--<div class="footer-col">-->
+<!--<h4 class="footer-title">More From Us</h4>-->
+<!--<ul class="list-unstyled footer-nav">-->
+<!--<li><a href="faq.html">FAQ-->
+<!--</a></li>-->
+<!--<li><a href="blogs.html">Blog-->
+<!--</a></li>-->
+<!--<li><a href="#">-->
+<!--Popular Searches-->
+<!--</a></li>-->
+<!--<li><a href="#"> Site Map-->
+<!--</a></li>-->
+<!--<li><a href="#"> Customer Reviews-->
+<!--</a></li>-->
+
+
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class=" col-xl-2 col-xl-2 col-md-2 col-6  ">-->
+<!--<div class="footer-col">-->
+<!--<h4 class="footer-title">Account</h4>-->
+<!--<ul class="list-unstyled footer-nav">-->
+<!--<li><a href="account-home.html"> Manage Account-->
+<!--</a></li>-->
+<!--<li><a href="login.html">Login-->
+<!--</a></li>-->
+<!--<li><a href="signup.html">Register-->
+<!--</a></li>-->
+<!--<li><a href="account-myads.html"> My ads-->
+<!--</a></li>-->
+<!--<li><a href="seller-profile.html"> Profile-->
+<!--</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class=" col-xl-4 col-xl-4 col-md-4 col-12">-->
+<!--<div class="footer-col row">-->
+
+<!--<div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">-->
+<!--<div class="mobile-app-content">-->
+<!--<h4 class="footer-title">Mobile Apps</h4>-->
+<!--<div class="row ">-->
+<!--<div class="col-6  ">-->
+<!--<a class="app-icon" target="_blank" href="https://itunes.apple.com/">-->
+<!--<span class="hide-visually">iOS app</span>-->
+<!--<img src="images/site/app_store_badge.svg" alt="Available on the App Store">-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="col-6  ">-->
+<!--<a class="app-icon" target="_blank" href="https://play.google.com/store/">-->
+<!--<span class="hide-visually">Android App</span>-->
+<!--<img src="images/site/google-play-badge.svg" alt="Available on the App Store">-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">-->
+<!--<div class="hero-subscribe">-->
+<!--<h4 class="footer-title no-margin">Follow us on</h4>-->
+<!--<ul class="list-unstyled list-inline footer-nav social-list-footer social-list-color footer-nav-inline">-->
+<!--<li><a class="icon-color fb" title="Facebook" data-placement="top"-->
+<!--data-toggle="tooltip" href="#"><i class="fab fa-facebook-f"></i> </a></li>-->
+<!--<li><a class="icon-color tw" title="Twitter" data-placement="top"-->
+<!--data-toggle="tooltip" href="#"><i class="fab fa-twitter"></i> </a></li>-->
+<!--<li><a class="icon-color gp" title="Google+" data-placement="top"-->
+<!--data-toggle="tooltip" href="#"><i class="fab fa-google-plus-g"></i> </a>-->
+<!--</li>-->
+<!--<li><a class="icon-color lin" title="Linkedin" data-placement="top"-->
+<!--data-toggle="tooltip" href="#"><i class="fab fa-linkedin"></i> </a></li>-->
+<!--<li><a class="icon-color pin" title="Linkedin" data-placement="top"-->
+<!--data-toggle="tooltip" href="#"><i class="fab fa-pinterest-p"></i> </a></li>-->
+<!--</ul>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="clear: both"></div>-->
+
+<!--<div class="col-xl-12">-->
+<!--<div class=" text-center paymanet-method-logo">-->
+
+<!--<img src="images/site/payment/master_card.png" alt="img">-->
+<!--<img alt="img" src="images/site/payment/visa_card.png">-->
+<!--<img alt="img" src="images/site/payment/paypal.png">-->
+<!--<img alt="img" src="images/site/payment/american_express_card.png"> <img alt="img"-->
+<!--src="images/site/payment/discover_network_card.png">-->
+<!--<img alt="img" src="images/site/payment/google_wallet.png">-->
+<!--</div>-->
+
+<!--<div class="copy-info text-center">-->
+<!--&copy; 2017 BootClassified. All Rights Reserved.-->
+<!--</div>-->
+
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</footer>-->
+<!-- /.footer -->
 
 <!-- Modal contactAdvertiser -->
 
@@ -359,7 +352,8 @@
       <div class="modal-header">
         <h4 class="modal-title"><i class=" icon-mail-2"></i> Contact advertiser </h4>
 
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+        <button type="button" class="close" data-dismiss="modal"><span
+            aria-hidden="true">&times;</span><span
             class="sr-only">Close</span></button>
       </div>
       <div class="modal-body">
@@ -374,7 +368,8 @@
           <div class="form-group">
             <label for="sender-email" class="control-label">E-mail:</label>
             <input id="sender-email" type="text"
-                   data-content="Must be a valid e-mail address (user@gmail.com)" data-trigger="manual"
+                   data-content="Must be a valid e-mail address (user@gmail.com)"
+                   data-trigger="manual"
                    data-placement="top" placeholder="email@you.com" class="form-control email">
           </div>
           <div class="form-group">
@@ -382,7 +377,8 @@
             <input type="text" maxlength="60" class="form-control" id="recipient-Phone-Number">
           </div>
           <div class="form-group">
-            <label for="message-text" class="control-label">Message <span class="text-count">(300) </span>:</label>
+            <label for="message-text" class="control-label">Message <span
+                class="text-count">(300) </span>:</label>
             <textarea class="form-control" id="message-text" placeholder="Your message here.."
                       data-placement="top" data-trigger="manual"></textarea>
           </div>
@@ -408,10 +404,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"><i class="fa icon-info-circled-alt"></i> There's something wrong with this ads?
+        <h4 class="modal-title"><i class="fa icon-info-circled-alt"></i> There's something wrong
+          with this ads?
         </h4>
 
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+        <button type="button" class="close" data-dismiss="modal"><span
+            aria-hidden="true">&times;</span><span
             class="sr-only">Close</span></button>
       </div>
       <div class="modal-body">
@@ -430,10 +428,12 @@
           </div>
           <div class="form-group">
             <label for="recipient-email" class="control-label">Your E-mail:</label>
-            <input type="text" name="email" maxlength="60" class="form-control" id="recipient-email">
+            <input type="text" name="email" maxlength="60" class="form-control"
+                   id="recipient-email">
           </div>
           <div class="form-group">
-            <label for="message-text2" class="control-label">Message <span class="text-count">(300) </span>:</label>
+            <label for="message-text2" class="control-label">Message <span
+                class="text-count">(300) </span>:</label>
             <textarea class="form-control" id="message-text2"></textarea>
           </div>
         </form>
@@ -446,16 +446,29 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="assets/js/jquery/jquery-3.3.1.min.js">\x3C/script>')</script>
-
-<script src="assets/js/vendors.min.js"></script>
-
-<script src="assets/js/main.min.js"></script>
-
 <script>
-  $('.bxslider').bxSlider({
-    pagerCustom: '#bx-pager'
-  });
+  $(document).ready(function () {
+    var isSaved = 0;
+    var id = $('#postId').val();
+    $('#saved').click(function () {
+      console.log("fff")
+      if ($('.fa').hasClass("fa-heart")) {
+        $('.fa').removeClass("fa-heart").addClass("far-heart");
 
+        console.log($('.fa').hasClass("fa-heart"))
+        isSaved = 1;
+      } else if ($('.fa').hasClass("far-heart")) {
+        console.log($('.fa').hasClass("far-heart"))
+
+        $('.fa').removeClass("far-heart").addClass("fa-heart");
+      }
+      $.ajax({
+        url: "updatePost/saved?id=" + id + "&isSaved=" + isSaved,
+        type: "post",
+        success: function () {
+        }
+
+      })
+    })
+  })
 </script>

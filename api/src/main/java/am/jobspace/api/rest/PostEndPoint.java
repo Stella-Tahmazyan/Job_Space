@@ -8,7 +8,10 @@ import am.jobspace.common.repository.PostRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import javafx.geometry.Pos;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/post")
+@Slf4j
 public class PostEndPoint {
 
   @Autowired
@@ -75,6 +79,22 @@ public class PostEndPoint {
           .ok(post);
     }
     return ResponseEntity.notFound().build();
+  }
+
+  @GetMapping("update/saved/{id}/{isSaved}")
+  public ResponseEntity updateSaved(@PathVariable("id") int id,@PathVariable("isSaved") boolean isSaved) {
+    try {
+       postRepository.updateSaved(id,isSaved);
+      Optional<Post> post =postRepository.findById(id);
+      if(post.isPresent()) {
+        return ResponseEntity
+            .ok(post);
+      }
+    } catch (Exception e) {
+      log.error("Error:" + e);
+    }
+    return ResponseEntity.notFound().build();
+
   }
 
   @DeleteMapping("delete/{id}")

@@ -1,26 +1,22 @@
 package am.jobspace.web.controller;
 
 import am.jobspace.common.model.Category;
-import am.jobspace.common.model.Country;
-import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
 public class MainController {
+  @Value("${server.IP}")
+  private String hostName;
 
   @Value("${image.upload.dir}")
   private String imageUploadDir;
@@ -45,7 +41,8 @@ public class MainController {
   }
 
   @GetMapping("postDetail")
-  public ModelAndView postDetail(@RequestParam("id") int id, ModelAndView modelAndView) {
+  public ModelAndView postDetail(ModelAndView modelAndView) {
+
     modelAndView.setViewName("post-detail");
     return modelAndView;
   }
