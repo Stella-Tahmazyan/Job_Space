@@ -7,6 +7,8 @@ import am.jobspace.common.model.User;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @Controller
@@ -88,9 +93,29 @@ public class PostController {
       return "redirect:/";
     }
     modelMap.addAttribute("post", post);
-    modelMap.addAttribute("isSaved",post.isSaved());
     return "post-detail";
   }
+
+  @GetMapping("getAllPostBySaved")
+  public String getAllPostBySaved(ModelMap modelMap) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = hostName + "post/getSaved";
+
+    ResponseEntity<List<Post>> response = restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Post>>() {
+        });
+    List<Post> allAds = response.getBody();
+
+    if (allAds == null) {
+      return "redirect:/";
+    }
+    modelMap.addAttribute("allAds", allAds);
+    return "allAds";
+  }
+
 
   @GetMapping("getPost/all")
   public String getAll() {
@@ -113,9 +138,14 @@ public class PostController {
   }
 
   @GetMapping("/getPostByCategory")
-  public String get(@RequestParam("id") int id) {
+  public String get(@RequestParam("id") int id, ModelMap map,
+      @RequestParam("page") Optional<Integer> page,
+      @RequestParam("size") Optional<Integer> size,
+      @RequestParam(value = "href", required = false) String href) {
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(2);
     RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/get/category/" + id;
+    String url = hostName + "post/pagable/" + id + "/" + currentPage + "/" + pageSize;
     ResponseEntity<List<Post>> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
@@ -123,8 +153,28 @@ public class PostController {
         new ParameterizedTypeReference<List<Post>>() {
         });
     List<Post> posts = response.getBody();
+    map.addAttribute("allAds", posts);
+  String url1 = hostName + "/post/get/category/" + id;
 
-    return "redirect:/";
+    ResponseEntity<List<Post>> response1 = restTemplate.exchange(
+        url1,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Post>>() {
+        });
+
+    int totalPages = response1.getBody().size();
+    totalPages =totalPages/pageSize;
+    totalPages = totalPages == 0 ? totalPages : totalPages + 1;
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
+      map.addAttribute("allAds", posts);
+    }
+    return href;
+
   }
 
   @GetMapping("updatePost")
@@ -142,10 +192,12 @@ public class PostController {
     return "redirect:/";
   }
 
-  @GetMapping("updatePost/saved")
-  public ModelAndView updateSaved(@RequestParam("id") int id, @RequestParam("isSaved") int isSaved,ModelAndView modelMap) {
+  @GetMapping(value = "updatePost/saved", produces = {MediaType.APPLICATION_JSON_VALUE})
+  @ResponseBody
+  public Post updateSaved(@RequestParam("id") int id,
+      @RequestParam("saved") int saved, ModelAndView modelMap) {
     RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/update/saved/" + id + "/" + isSaved;
+    String url = hostName + "post/update/saved/" + id + "/" + saved;
     ResponseEntity<Post> response = restTemplate.exchange(
         url,
         HttpMethod.GET,
@@ -153,10 +205,10 @@ public class PostController {
         new ParameterizedTypeReference<Post>() {
         });
     Post post = response.getBody();
-    modelMap.addObject("isSAved",post.isSaved());
+// modelMap.addObject("post",post);
 
-//    post = response.getBody();
-    return modelMap;
+// post = response.getBody();
+    return post;
   }
 
   @GetMapping("deletePost")

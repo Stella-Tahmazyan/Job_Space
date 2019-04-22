@@ -59,6 +59,9 @@
     </script>
     <script th:src="@{assets/js/pace.min.js}"></script>
     <script th:src="@{assets/plugins/modernizr/modernizr-custom.js}"></script>
+    <style>
+
+    </style>
 </head>
 <body>
 <div id="wrapper">
@@ -76,6 +79,21 @@
   $('.bxslider').bxSlider({
     pagerCustom: '#bx-pager'
   });
+
+  $.ajax({
+    url: "https://restcountries.eu/rest/v2/?fields=name",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+      $.each(data, function (key, value) {
+        $('.country')
+        .append($("<option></option>")
+        .attr("value", value.name)
+        .text(value.name));
+      });
+    }
+  })
 
 </script>
 </html>

@@ -80,22 +80,11 @@
                 <div class="ads-action">
                   <ul class="list-border">
                     <li><a href="#"> <i class=" fa fa-user"></i> More ads by User </a></li>
+                    <li><a href="#" id="saved"> <i th:if="${post.saved==true}" class=" fa fa-heart"></i>
 
-                      <a href="#" id="saved">
+                      <i th:if="${post.saved==false}" class="far fa-heart"></i>
+                      Save ad </a></li>
 
-                      <span th:if="${isSaved==true}" th:remove="tag"><li class="fa fa-heart"></li>
-                    </span>
-                    <span th:if="${isSaved==false}" th:remove="tag">
-                                            <li th:unless="${isSaved==false}" class="fa far-heart"></li>
-                    </span>
-
-
-                    Save ad
-                    </a>
-                    </li>
-                    <li><a href="#"> <i class="fa fa-share-alt"></i> Share ad </a></li>
-                    <li><a href="#reportAdvertiser" data-toggle="modal"> <i
-                        class="fa icon-info-circled-alt"></i> Report abuse </a></li>
                   </ul>
                 </div>
               </div>
@@ -448,24 +437,20 @@
 
 <script>
   $(document).ready(function () {
-    var isSaved = 0;
+    var saved = 0;
     var id = $('#postId').val();
     $('#saved').click(function () {
-      console.log("fff")
-      if ($('.fa').hasClass("fa-heart")) {
-        $('.fa').removeClass("fa-heart").addClass("far-heart");
-
-        console.log($('.fa').hasClass("fa-heart"))
+      if ($('.fa-heart').hasClass("fa")) {
+        $('.fa-heart').removeClass("fa").addClass("far");
+      } else if ($('.fa-heart').hasClass("far")) {
         isSaved = 1;
-      } else if ($('.fa').hasClass("far-heart")) {
-        console.log($('.fa').hasClass("far-heart"))
-
-        $('.fa').removeClass("far-heart").addClass("fa-heart");
+        $('.fa-heart').removeClass("far").addClass("fa");
       }
       $.ajax({
-        url: "updatePost/saved?id=" + id + "&isSaved=" + isSaved,
-        type: "post",
-        success: function () {
+        url: "updatePost/saved?id=" + id + "&saved=" + saved,
+        type: "get",
+        success: function (data) {
+          console.log(data)
         }
 
       })

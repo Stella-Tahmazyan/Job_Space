@@ -1,0 +1,174 @@
+<div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+     layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
+    <div th:insert="menu.html"></div>
+    <div class="search-row-wrapper events" style="background-image: url(http://localhost.:8084/images/events/5-large_x2.jpg)">
+
+    </div>
+
+
+
+    <!-- /.search-row -->
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <!-- this (.mobile-filter-sidebar) part will be position fixed in mobile version -->
+                <div class="col-md-3 page-sidebar mobile-filter-sidebar sidebar-modern">
+                    <aside>
+                        <div class="sidebar-modern-inner">
+                            <div class="block-title sidebar-header">
+                                <h5><a href="#">All Categories</a></h5>
+                            </div>
+                            <div class="block-content categories-list  list-filter ">
+
+                                <ul class=" list-unstyled">
+                                    <li th:each="cat : ${categories}"><a th:text="${cat.name}" th:href="@{/post/getByCategory(id=${cat.id})}"><span
+                                            class="title">Sports</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>    <!--/.categories-list-->
+
+                            <!--&lt;!&ndash;/.list-filter&ndash;&gt;-->
+                            <!--<div class="block-title ">-->
+                                <!--<h5><a href="#">Price</a></h5>-->
+                            <!--</div>-->
+                            <!--<div class="block-content categories-list  list-filter ">-->
+                                <!--<ul class="browse-list list-unstyled long-list">-->
+                                    <!--<li><a href="sub-category-sub-location.html">Paid <span class="count">228,705</span></a>-->
+                                    <!--</li>-->
+                                    <!--<li><a href="sub-category-sub-location.html">Free <span class="count">28,705</span></a>-->
+                                    <!--</li>-->
+                                    <!--<li><a href="sub-category-sub-location.html">All </a></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--/.list-filter-->
+                            <div style="clear:both"></div>
+                        </div>
+
+                        <!--/.categories-list-->
+                    </aside>
+                </div>
+                <!--/.page-side-bar-->
+                <div class="col-md-9 page-content col-thin-left">
+                    <div class="category-list event-category-list">
+
+                        <div class="listing-filter listing-filter-event">
+                            <div class="pull-left col-6 p-0">
+
+
+                                <div class="btn-group col hidden-sm">
+                                    <button type="button" class="btn btn-default btn-block btn-line dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        By Date
+                                    </button>
+                                    <div class="dropdown-menu dropdown-line">
+                                        <a class="dropdown-item" href="#"> Today</a>
+                                        <a class="dropdown-item" href="#"> This week</a>
+                                        <a class="dropdown-item" href="#"> Next Month</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6 p-0 text-right listing-view-action hasEvent"><span
+                                    class="e-list-view "><i class="  icon-th"></i></span>  <span
+                                    class="e-grid-view active"><i class=" icon-th-large "></i></span></div>
+                            <div style="clear:both"></div>
+                        </div>
+
+
+                        <div class="adds-wrapper">
+                            <div class="row">
+ <div class="col-md-4 col-sm-6 col-12 event-item-col" th:each="post : ${postsByCat}">
+                                    <div class="card card-event info-overlay">
+                                        <div class="img has-background" style="background-image: url(http://localhost.:8084/images/events/1-large.jpg); background-size:cover ">
+                                            <div class="pop-info ">
+                                    <span class="event-badges ">
+									    <span class="badge price-tag big badge-default"> FREE</span>
+								    </span>
+                                            </div>
+
+
+                                        <a th:href="@{/post/getByCategory(id=${post.id})}" class="event-pop-link">
+                                    <span class="event-badges ">
+									<span class="badge badge-danger"> TOP RATED</span>
+								</span>
+
+                                                <div class="event-pop-info">
+
+                                                    <p class="price">FREE</p>
+
+
+
+                                                </div>
+                                            </a>
+
+                                            <a th:href="@{/post/getByCategory(id=${post.id})}">
+                                                <img alt="340x230" class="card-img-top img-responsive" data-holder-rendered="true" src="http://localhost.:8084/images/10x6.gif"> </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title">
+                                                <a href="#" th:text="${post.title}"></a>
+                                            </h4>
+
+
+                                            <div class="card-event-info">
+
+                                                <p class="event-time" th:text="${post.postDate}"><i class="fa icon-calendar-1"></i>  </p>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="pull-left left">
+                                                <div class="" th:text="${post.user.name}">by <a href="#"> </a></div>
+                                            </div>
+                                            <!--<div class="pull-right right social-link">-->
+                                                <!--<a href="#"><i class="fa  fa-share-alt"></i> </a>-->
+
+                                                <!--<a href="#"><i class="fa  fa-heart"></i> </a>-->
+                                            <!--</div>-->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <!--/.adds-wrapper-->
+
+                        <div class="tab-box  save-search-bar text-center"></div>
+                    </div>
+                    <div class="pagination-bar text-center">
+                        <nav aria-label="Page navigation " class="d-inline-b">
+                            <ul class="pagination">
+
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!--/.pagination-bar -->
+
+                    <div class="post-promo text-center">
+
+                        <a href="/postAds" class="btn btn-lg btn-border btn-post btn-danger">Post a Free Ad </a>
+                    </div>
+                    <!--/.post-promo-->
+
+                </div>
+                <!--/.page-content-->
+
+            </div>
+        </div>
+    </div>
+    <!-- /.main-container -->
+
+
+
+
+</div>

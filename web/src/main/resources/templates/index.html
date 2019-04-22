@@ -1,5 +1,4 @@
-<div xmlns:th="http://www.thymeleaf.org"
-     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+<div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
      layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
   <div th:insert="menu.html"></div>
   <div style="text-align: center;
@@ -38,7 +37,8 @@
 
 
           <div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="cat : ${categories}">
-            <a th:href="@{/adsByCategory(id=${cat.id})}">
+            <a th:href="@{/getPostByCategory(id=${cat.id})}">
+
 
               <img th:if="${cat.picName != null}" th:src="@{/getImages(picUrl=${cat.picName})}"
                    class="img-responsive">
@@ -56,7 +56,7 @@
         <div class="row row-featured">
           <div class="col-xl-12  box-title ">
             <div class="inner"><h2><span>Sponsored </span>
-              Products </h2>
+              Category </h2>
 
             </div>
           </div>
@@ -68,14 +68,16 @@
             <nav class="slider-nav has-white-bg nav-narrow-svg">
               <a class="prev">
                 <span class="nav-icon-wrap"></span>
+
               </a>
               <a class="next">
                 <span class="nav-icon-wrap"></span>
               </a>
             </nav>
+
             <div class="no-margin featured-list-slider ">
               <div class="item" th:each="cat : ${categories}">
-                <a href="#">
+                <a th:href="@{/getPostByCategory(id=${cat.id})}">
                                 <span class="item-carousel-thumb">
                                     <img th:if="${cat.picName != null}"
                                          th:src="@{/getImages(picUrl=${cat.picName})}"
@@ -90,6 +92,27 @@
         </div>
       </div>
 
+
+
+      <div style="clear: both"></div>
+
+      <div class="col-xl-12 content-box ">
+        <div class="row row-featured row-featured-category">
+          <div class="col-xl-12  box-title no-border">
+            <div class="inner">
+              <h2><span>Latest</span>
+                Ads</h2>
+            </div>
+          </div>
+
+          <div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="ads : ${allAds}">
+            <a th:href="@{/getPost(id=${ads.id})}">
+              <img th:src="@{images/category/car-2.jpg}" class="img-responsive" alt="img">
+              <h6 th:text="${ads.title}"></h6></a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

@@ -47,6 +47,6 @@ public class Post {
   @JoinColumn(name = "pic_id",referencedColumnName = "id")
   private Set<Images> images=new HashSet<>();
   @Column
-  private boolean isSaved;
+  private boolean saved;
 }
 

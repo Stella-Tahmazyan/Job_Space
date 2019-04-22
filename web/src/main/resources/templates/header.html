@@ -40,15 +40,16 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav ml-auto navbar-right">
+            <li style=" margin-top: 17px;" th:if="${currentUser!=null}"><a th:href="@{/getAllPostBySaved}" style="color: #16A085";><i class="fa fa-heart"></i> </a></li>
             <li class="dropdown no-arrow nav-item">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <a href="#" style="color: #16A085;" class="dropdown-toggle nav-link" data-toggle="dropdown">
 
                 <span th:if="${currentUser!=null}" th:text="${currentUser.name}"></span>
                 <i class="fas fa-user"></i> <i class="fas fa-sort-down"></i></a>
               <ul
                   class="dropdown-menu user-menu dropdown-menu-right">
                 <li class="active dropdown-item">
-                  <a href="/account"><i class="icon-home"></i> Personal Account
+                  <a style="color: #16A085;" href="/account"><i class="icon-home"></i> Personal Account
 
                   </a>
                 <li>
