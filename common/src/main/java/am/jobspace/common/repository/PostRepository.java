@@ -17,17 +17,17 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public interface PostRepository extends PagingAndSortingRepository<Post, Integer>   {
+public interface PostRepository extends JpaRepository<Post, Integer>   {
 
   List<Post> findAllByUserId(Integer id);
 
   List<Post> findAllBySaved(boolean saved);
 
-  List<Post> findAllByCategory(Integer id);
+  List<Post> findAllByCategoryId(Integer id);
 
   List<Post> findTop15ByOrderByIdDesc();
 
-  List<Post> findAllByCategoryId(int id, Pageable pageable);
+  Page<Post> findAllByCategoryId(int id, Pageable pageable);
 
 
   @Modifying

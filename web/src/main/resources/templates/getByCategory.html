@@ -1,6 +1,5 @@
 <div xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
      layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
-    <div th:insert="menu.html"></div>
     <div class="search-row-wrapper events" style="background-image: url(http://localhost.:8084/images/events/5-large_x2.jpg)">
 
     </div>
@@ -79,7 +78,7 @@
 
                         <div class="adds-wrapper">
                             <div class="row">
- <div class="col-md-4 col-sm-6 col-12 event-item-col" th:each="post : ${postsByCat}">
+ <div class="col-md-4 col-sm-6 col-12 event-item-col" th:each="post : ${posts}">
                                     <div class="card card-event info-overlay">
                                         <div class="img has-background" style="background-image: url(http://localhost.:8084/images/events/1-large.jpg); background-size:cover ">
                                             <div class="pop-info ">
@@ -89,7 +88,7 @@
                                             </div>
 
 
-                                        <a th:href="@{/post/getByCategory(id=${post.id})}" class="event-pop-link">
+                                        <a th:href="@{/getPostByCategory(id=${post.id})}" class="event-pop-link">
                                     <span class="event-badges ">
 									<span class="badge badge-danger"> TOP RATED</span>
 								</span>
@@ -139,18 +138,25 @@
 
                         <div class="tab-box  save-search-bar text-center"></div>
                     </div>
-                    <div class="pagination-bar text-center">
-                        <nav aria-label="Page navigation " class="d-inline-b">
-                            <ul class="pagination">
+                    <!--<div class="pagination-bar text-center">-->
+                        <!--<nav aria-label="Page navigation " class="d-inline-b">-->
+                            <!--<ul class="pagination">-->
 
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                                <!--<li class="page-item active"><a class="page-link" href="#">1</a></li>-->
+                                <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+                                <!--<li class="page-item"><a class="page-link" href="#">...</a></li>-->
+                                <!--<li class="page-item">-->
+                                    <!--<a class="page-link" href="#">Next</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</nav>-->
+                    <!--</div>-->
+
+                    <div th:if="${posts.totalPages > 0}" class="pagination"
+                         th:each="pageNumber : ${pageNumbers}">
+                            <a th:href="@{/getPostByCategory(id=${id},size=${posts.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}"
+                               th:class="${pageNumber==posts.number + 1} ? active"></a>
                     </div>
                     <!--/.pagination-bar -->
 

@@ -4,12 +4,15 @@ import am.jobspace.common.model.Images;
 import am.jobspace.common.model.Post;
 
 import am.jobspace.common.model.User;
+import am.jobspace.common.repository.PostRepository;
 import javafx.geometry.Pos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -137,43 +140,43 @@ public class PostController {
     return "";
   }
 
+  @Autowired
+  private PostRepository postRepository;
+
   @GetMapping("/getPostByCategory")
   public String get(@RequestParam("id") int id, ModelMap map,
       @RequestParam("page") Optional<Integer> page,
-      @RequestParam("size") Optional<Integer> size,
-      @RequestParam(value = "href", required = false) String href) {
-    int currentPage = page.orElse(1);
-    int pageSize = size.orElse(2);
-    RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/pagable/" + id + "/" + currentPage + "/" + pageSize;
-    ResponseEntity<List<Post>> response = restTemplate.exchange(
-        url,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<List<Post>>() {
-        });
-    List<Post> posts = response.getBody();
-    map.addAttribute("allAds", posts);
-  String url1 = hostName + "/post/get/category/" + id;
+      @RequestParam("size") Optional<Integer> size) {
+      int currentPage = page.orElse(1);
+      int pageSize = size.orElse(4);
 
-    ResponseEntity<List<Post>> response1 = restTemplate.exchange(
-        url1,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<List<Post>>() {
-        });
-
-    int totalPages = response1.getBody().size();
-    totalPages =totalPages/pageSize;
-    totalPages = totalPages == 0 ? totalPages : totalPages + 1;
+      Page<Post> posts = postRepository.findAllByCategoryId(id, PageRequest.of(currentPage - 1, pageSize));
+//      RestTemplate restTemplate = new RestTemplate();
+      map.addAttribute("posts", posts);
+//  String url1 = hostName + "/post/get/category/" + id;
+//
+//    ResponseEntity<List<Post>> response1 = restTemplate.exchange(
+//        url1,
+//        HttpMethod.GET,
+//        null,
+//        new ParameterizedTypeReference<List<Post>>() {
+//        });
+//
+//    int totalPages = response1.getBody().size();
+//    totalPages =totalPages/pageSize;
+   int totalPages = posts.getTotalPages();
     if (totalPages > 0) {
-      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-          .boxed()
-          .collect(Collectors.toList());
-      map.addAttribute("pageNumbers", pageNumbers);
-      map.addAttribute("allAds", posts);
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+        map.addAttribute("pageNumbers", pageNumbers);
+//      map.addAttribute("totalPages", totalPages);
+//      map.addAttribute("size", pageSize);
+      map.addAttribute("id",id);
+////      map.addAttribute("allAds", posts);
+//    }
     }
-    return href;
+    return "getByCategory";
 
   }
 

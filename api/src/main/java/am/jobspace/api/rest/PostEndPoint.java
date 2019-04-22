@@ -72,14 +72,14 @@ public class PostEndPoint {
   public ResponseEntity getAllPagable(@PathVariable("id") int id,@PathVariable("page")
       int currentPage,@PathVariable("size") int size) {
     Pageable firstPageWithTwoElements = PageRequest.of(currentPage-1, size);
-    List<Post> allCategory = postRepository.findAllByCategoryId(id,firstPageWithTwoElements);
+    Page<Post> allCategory = postRepository.findAllByCategoryId(id,firstPageWithTwoElements);
     return ResponseEntity
         .ok(allCategory);
   }
 
   @GetMapping("get/category/{id}")
   public ResponseEntity getByCategory(@PathVariable("id") int id) {
-    List<Post> allCategory = postRepository.findAllByCategory(id);
+    List<Post> allCategory = postRepository.findAllByCategoryId(id);
     return ResponseEntity.ok(allCategory);
   }
 //
