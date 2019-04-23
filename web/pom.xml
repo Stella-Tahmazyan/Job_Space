@@ -41,6 +41,12 @@
 	</pluginRepositories>
 
 	<dependencies>
+
+		<dependency>
+		<groupId>org.thymeleaf.extras</groupId>
+		<artifactId>thymeleaf-extras-java8time</artifactId>
+	</dependency>
+
 		<dependency>
 			<groupId>am.jobspace</groupId>
 			<artifactId>common</artifactId>

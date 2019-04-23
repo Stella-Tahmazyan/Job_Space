@@ -1,7 +1,6 @@
 package am.jobspace.api.rest;
 
 import am.jobspace.common.model.Category;
-
 import am.jobspace.common.repository.CategoryRepositroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
