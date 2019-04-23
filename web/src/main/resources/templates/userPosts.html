@@ -24,26 +24,76 @@
         <!-- this (.mobile-filter-sidebar) part will be position fixed in mobile version -->
         <div class="col-md-3 page-sidebar mobile-filter-sidebar sidebar-modern">
           <aside>
-            <div class="sidebar-modern-inner">
-              <div class="block-title sidebar-header">
-                <h5><a th:href="@{getPost/all}">All Categories</a></h5>
-              </div>
-              <div class="block-content categories-list  list-filter ">
 
-                <ul class=" list-unstyled">
-                  <li th:each="cat : ${categories}"><a th:text="${cat.name}"
-                                                       th:href="@{/getPostByCategory(id=${cat.id})}"><span
-                      class="title">Sports</span>
-                  </a>
-                  </li>
+            <div class="card card-user-info sidebar-card">
+              <div class="block-cell user">
 
-                </ul>
+                <div class="cell-media">
+                  <img th:src="@{/getImages(picUrl=${user.picUrl})}" alt="">
+                </div>
+                <div class="cell-content">
+                <span class="name"><a href="">
+                    <span th:text="${user.name+' ' +user.surname}">
+                 </span>
+                  </a></span>
+                </div>
               </div>
-              <div style="clear:both"></div>
+              <div class="card-content">
+                <div class="card-body text-left">
+                  <div class="grid-col">
+                    <div class="col from">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>Location</span>
+                    </div>
+                    <div class="col to">
+                      <span th:text="${user.country}"></span>
+                    </div>
+                  </div>
+
+                  <div class="grid-col">
+                    <div class="col from">
+                      <i class="fas fa-user"></i>
+                      <span>Joined</span>
+                    </div>
+                    <div class="col to">
+                      <span th:text="${user.profileCreated}"></span>
+                    </div>
+                  </div>
+
+                  <div class="grid-col">
+                    <div class="col from">
+                      <i class="fas fa-clock"></i>
+                      <span>Last Online</span>
+                    </div>
+                    <div class="col to">
+                      <span th:text="${user.activeDate}"></span>
+                    </div>
+                  </div>
+                  <div class="grid-col">
+                    <div class="col from">
+                      <i class="fas fa-clock"></i>
+                      <span>Number</span>
+                    </div>
+                    <div class="col to">
+                      <span th:text="${user.number}"></span>
+                    </div>
+                  </div>
+
+                  <div class="grid-col">
+                    <div class="col from">
+                      <i class="fas fa-clock"></i>
+                      <span>Email</span>
+                    </div>
+                    <div class="col to">
+                      <span th:text="${user.email}"></span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </aside>
         </div>
-        <!--/.page-side-bar-->
         <div class="col-md-9 page-content col-thin-left">
           <div class="category-list event-category-list">
 
@@ -83,7 +133,7 @@
                       <a th:href="@{/getPost(id=${post.id})}">
                         <img alt="340x230" class="card-img-top img-responsive"
                              data-holder-rendered="true"
-                             th:src=="@{/getImages(pic_url=${post.picUrl})}"> </a>
+                             th:src="@{/getPost(id=${post.pic_url})}"> </a>
                     </div>
                     <div class="card-body" style="margin-top: 14px;">
                       <h4 class="card-title">
@@ -92,7 +142,9 @@
                           <i class="fa fa-eye"></i>
                           <span th:text="${post.view}"></span>
                         </span>
-                      </h4>
+                      </h4>F
+
+
                       <div class="card-event-info">
 
                         <p class="event-time" th:text="${post.postDate}"><i
@@ -101,7 +153,7 @@
                     </div>
                     <div class="card-footer">
                       <div class="pull-left left">
-                        <div class="" th:text="${'By '+post.user.name}">by <a th:href="@{/getPostByUser(id=${post.user.id})}"> </a></div>
+                        <div class="" th:text="${'By '+post.user.name}">by <a href="#"> </a></div>
                       </div>
                       <!--<div class="pull-right right social-link">-->
                       <!--<a href="#"><i class="fa  fa-share-alt"></i> </a>-->
@@ -127,7 +179,7 @@
                 <li class="page-item active" th:if="${posts.totalPages > 0}"
                     th:each="pageNumber : ${pageNumbers}">
                       <a class="page-link" style="cursor: pointer;"
-                         th:href="@{/getAllPost(size=${posts.size}, page=${pageNumber})}"
+                         th:href="@{/getAllPostByUser(id=${user.id},size=${posts.size}, page=${pageNumber})}"
                          th:text="${pageNumber}"
                          th:class="${pageNumber==posts.number + 1} ? active"></a>
                 </li>

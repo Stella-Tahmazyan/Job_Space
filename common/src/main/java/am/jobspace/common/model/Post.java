@@ -33,8 +33,7 @@ public class Post {
   private Category category;
   @ManyToOne
   private User user;
-
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.DATE)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
   private Date postDate;
@@ -42,11 +41,11 @@ public class Post {
   private String location;
   @Column
   private Double salary;
-
-  @OneToMany
-  @JoinColumn(name = "pic_id",referencedColumnName = "id")
-  private Set<Images> images=new HashSet<>();
+  @Column
+  private String picUrl;
   @Column
   private boolean saved;
+  @Column
+  private int view;
 }
 

@@ -1,18 +1,16 @@
 package am.jobspace.web.controller;
 
-import am.jobspace.common.model.Images;
 import am.jobspace.common.model.Post;
 
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.PostRepository;
-import javafx.geometry.Pos;
+import am.jobspace.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -26,9 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -43,9 +39,15 @@ public class PostController {
   @Value("${image.upload.dir}")
   private String imageUploadDir;
 
+  @Autowired
+  private PostRepository postRepository;
+
+  @Autowired
+  private UserRepository userRepository;
+
   @PostMapping("post/add")
   public String add(@ModelAttribute Post post, HttpServletRequest req, BindingResult bindingResult,
-      @RequestParam("picture") MultipartFile[] files) throws IOException {
+      @RequestParam("picture") MultipartFile file) throws IOException {
 //    if (bindingResult.hasErrors()) {
 //      return "post-ads";
 //    }
@@ -57,15 +59,11 @@ public class PostController {
     user = new User().builder().id(user.getId()).build();
     post.setPostDate(new Date());
     post.setUser(user);
-    for (MultipartFile uploadedFile : files) {
-      if (!StringUtils.isEmpty(uploadedFile.getOriginalFilename())) {
-        String fileName = System.currentTimeMillis() + "_" + uploadedFile.getOriginalFilename();
-        File picture = new File(imageUploadDir + File.separator + fileName);
-        uploadedFile.transferTo(picture);
-        post.getImages()
-            .add(new Images().builder().picUrl(fileName).uploadDate(new Date()).build());
-      }
-    }
+    String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+    File picture = new File(imageUploadDir + File.separator + fileName);
+    file.transferTo(picture);
+    user.setPicUrl(fileName);
+
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<Post> request = new HttpEntity<>(post);
     restTemplate.exchange(
@@ -81,100 +79,122 @@ public class PostController {
   @GetMapping("/getPost")
   public String getById(@RequestParam("id") int id, RedirectAttributes redirectAttributes,
       ModelMap modelMap) {
-    RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/get/" + id;
-
-    ResponseEntity<Post> response = restTemplate.exchange(
-        url,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<Post>() {
-        });
-    Post post = response.getBody();
-
-    if (post == null) {
-      return "redirect:/";
+    Optional<Post> post = postRepository.findById(id);
+    if (post.isPresent()) {
+      modelMap.addAttribute("post", post.get());
     }
-    modelMap.addAttribute("post", post);
+
     return "post-detail";
+  }
+  @GetMapping("/getAllPostByUser")
+  public String getPostByUserId(@RequestParam("id") int id,  @RequestParam("page") Optional<Integer> page,
+      @RequestParam("size") Optional<Integer> size, ModelMap map) {
+
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(4);
+    Page<Post> posts = postRepository
+        .findAllBySavedAndUserId(true, id, PageRequest.of(currentPage - 1, pageSize));
+
+    map.addAttribute("posts", posts);
+    int totalPages = posts.getTotalPages();
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
+
+    }
+
+    Optional<User> user = userRepository.findById(id);
+    if (user.isPresent()) {
+      map.addAttribute("user", user.get());
+    }
+
+    return "userPosts";
   }
 
   @GetMapping("getAllPostBySaved")
-  public String getAllPostBySaved(ModelMap modelMap) {
-    RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/getSaved";
+  public String getAllPostBySaved(ModelMap map, @RequestParam("id") int id,
+      @RequestParam("page") Optional<Integer> page,
+      @RequestParam("size") Optional<Integer> size) {
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(4);
+    Page<Post> posts = postRepository
+        .findAllBySavedAndUserId(true, id, PageRequest.of(currentPage - 1, pageSize));
 
-    ResponseEntity<List<Post>> response = restTemplate.exchange(
-        url,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<List<Post>>() {
-        });
-    List<Post> allAds = response.getBody();
+    map.addAttribute("posts", posts);
+    int totalPages = posts.getTotalPages();
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
 
-    if (allAds == null) {
-      return "redirect:/";
     }
-    modelMap.addAttribute("allAds", allAds);
+    return "postsSaved";
+  }
+
+
+  @GetMapping("getAllPost")
+  public String getAll(ModelMap map,@RequestParam("page") Optional<Integer> page,
+    @RequestParam("size") Optional<Integer> size) {
+
+      int currentPage = page.orElse(1);
+      int pageSize = size.orElse(4);
+      Page<Post> posts = postRepository
+          .findAll(PageRequest.of(currentPage - 1, pageSize));
+
+      map.addAttribute("posts", posts);
+      int totalPages = posts.getTotalPages();
+      if (totalPages > 0) {
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+            .boxed()
+            .collect(Collectors.toList());
+        map.addAttribute("pageNumbers", pageNumbers);
+
+      }
+
     return "allAds";
   }
 
 
-  @GetMapping("getPost/all")
-  public String getAll() {
-    RestTemplate restTemplate = new RestTemplate();
+  @GetMapping("getPostByUser")
+  public String getAllByUser(@RequestParam("id") int id, ModelMap map,
+      @RequestParam("page") Optional<Integer> page,
+      @RequestParam("size") Optional<Integer> size) {
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(4);
 
-    String url = hostName + "get/category";
-
-    ResponseEntity<List<Post>> response = restTemplate.exchange(
-        url,
-        HttpMethod.GET,
-        null,
-        new ParameterizedTypeReference<List<Post>>() {
-        });
-    if (response.getStatusCode().equals(ResponseEntity.notFound())) {
-      // add condition
-      return "";
+    Page<Post> posts = postRepository
+        .findAllByUserId(id, PageRequest.of(currentPage - 1, pageSize));
+    map.addAttribute("posts", posts);
+    int totalPages = posts.getTotalPages();
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
     }
-    List<Post> posts = response.getBody();
-    return "";
+    return "postsSaved";
   }
-
-  @Autowired
-  private PostRepository postRepository;
 
   @GetMapping("/getPostByCategory")
   public String get(@RequestParam("id") int id, ModelMap map,
       @RequestParam("page") Optional<Integer> page,
       @RequestParam("size") Optional<Integer> size) {
-      int currentPage = page.orElse(1);
-      int pageSize = size.orElse(4);
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(4);
 
-      Page<Post> posts = postRepository.findAllByCategoryId(id, PageRequest.of(currentPage - 1, pageSize));
-//      RestTemplate restTemplate = new RestTemplate();
-      map.addAttribute("posts", posts);
-//  String url1 = hostName + "/post/get/category/" + id;
-//
-//    ResponseEntity<List<Post>> response1 = restTemplate.exchange(
-//        url1,
-//        HttpMethod.GET,
-//        null,
-//        new ParameterizedTypeReference<List<Post>>() {
-//        });
-//
-//    int totalPages = response1.getBody().size();
-//    totalPages =totalPages/pageSize;
-   int totalPages = posts.getTotalPages();
+    Page<Post> posts = postRepository
+        .findAllByCategoryId(id, PageRequest.of(currentPage - 1, pageSize));
+    map.addAttribute("posts", posts);
+    int totalPages = posts.getTotalPages();
     if (totalPages > 0) {
-        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
-        map.addAttribute("pageNumbers", pageNumbers);
-//      map.addAttribute("totalPages", totalPages);
-//      map.addAttribute("size", pageSize);
-      map.addAttribute("id",id);
-////      map.addAttribute("allAds", posts);
-//    }
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
+      map.addAttribute("id", id);
     }
     return "getByCategory";
 
@@ -208,9 +228,6 @@ public class PostController {
         new ParameterizedTypeReference<Post>() {
         });
     Post post = response.getBody();
-// modelMap.addObject("post",post);
-
-// post = response.getBody();
     return post;
   }
 

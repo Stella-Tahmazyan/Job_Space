@@ -3,7 +3,6 @@
   <div th:insert="menu.html"></div>
   <div style="text-align: center;
     font-size: 24px;" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
-  <input type="hidden" id="token" th:value="${token}">
 
   <div class="intro" style="background-image: url(/images/bg3.jpg);">
     <div class="dtable hw100">
@@ -30,27 +29,49 @@
         <div class="row row-featured row-featured-category">
           <div class="col-xl-12  box-title no-border">
             <div class="inner">
-              <h2><span>Browse by</span>
-                Category</h2>
+              <h2><span>Most viewes</span>
+                Ads</h2>
             </div>
           </div>
-
-
-          <div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="cat : ${categories}">
-            <a th:href="@{/getPostByCategory(id=${cat.id})}">
-
-
-              <img th:if="${cat.picName != null}" th:src="@{/getImages(picUrl=${cat.picName})}"
-                   class="img-responsive">
-              <h6 th:text="${cat.name}"></h6></a>
+          <div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="ads : ${viewedPosts}">
+            <ul>
+              <li style="float: right;">
+                <i class="fa fa-eye"></i>
+                <span th:text="${ads.view}"></span>
+              </li>
+              <li>
+                <time>
+                  <span th:text="${ads.postDate}"></span>
+                </time>
+              </li>
+            </ul>
+            <a th:href="@{/getPost(id=${ads.id})}">
+              <img th:if="${ads.picUrl!= null}" th:src="@{/getImages(picUrl=${ads.picUrl})}"
+                   class="img-responsive" alt="img">
+              <h6 th:text="${ads.title}"></h6></a>
           </div>
 
-        </div>
+          <!--<div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="view : ${viewedPosts}">-->
+            <!--<ul>-->
+              <!--<li style="float: right;">-->
+                <!--<i class="fa fa-eye"></i>-->
+                <!--<span th:text="${view.view}"></span>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<time>-->
+                  <!--<span th:text="${view.postDate}"></span>-->
+                <!--</time>-->
+              <!--</li>-->
+            <!--</ul>-->
+            <!--<a th:href="@{/getPostByCategory(id=${view.id})}">-->
+              <!--<img th:if="${view.picUrl!= null}" th:src="@{/getImages(picUrl=${view.picUrl})}"-->
+                   <!--class="img-responsive">-->
+              <!--<h6 th:text="${view.title}"></h6>-->
+            <!--</a>-->
+          <!--</div>-->
 
-
+        <!--</div>-->
       </div>
-
-
       <div style="clear: both"></div>
       <div class="col-xl-12 content-box ">
         <div class="row row-featured">
@@ -106,13 +127,25 @@
           </div>
 
           <div class="col-xl-2 col-md-3 col-sm-3 col-xs-4 f-category" th:each="ads : ${allAds}">
+            <ul>
+              <li style="float: right;">
+                <i class="fa fa-eye"></i>
+                <span th:text="${ads.view}"></span>
+              </li>
+              <li>
+                <time>
+                  <span th:text="${ads.postDate}"></span>
+                </time>
+              </li>
+            </ul>
             <a th:href="@{/getPost(id=${ads.id})}">
-              <img th:src="@{images/category/car-2.jpg}" class="img-responsive" alt="img">
+              <img th:if="${ads.picUrl!= null}" th:src="@{/getImages(picUrl=${ads.picUrl})}"
+              class="img-responsive" alt="img">
               <h6 th:text="${ads.title}"></h6></a>
           </div>
         </div>
-
       </div>
     </div>
+  </div>
   </div>
 </div>

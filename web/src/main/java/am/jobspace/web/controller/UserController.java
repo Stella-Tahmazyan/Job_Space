@@ -2,6 +2,7 @@ package am.jobspace.web.controller;
 
 
 import am.jobspace.common.model.JwtAuthRequestDto;
+import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +30,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -49,6 +53,16 @@ public class UserController {
 
 //  @Autowired
 //  private EmailService emailService;
+
+
+  @GetMapping("/getUser/all")
+  public String getAllUser(int id, RedirectAttributes redirectAttributes,
+      ModelMap modelMap) {
+    List<User> users = userRepository.findAll();
+    List<User> activeUsers = userRepository.findAll();
+    modelMap.addAttribute("user", users);
+    return "all-user";
+  }
 
   @GetMapping("/loginSuccess")
   public String loginSuccess(@AuthenticationPrincipal
@@ -114,7 +128,9 @@ public class UserController {
   @GetMapping("/getImage")
   public void getImageAsByteArray(HttpServletResponse response,
       @RequestParam("picUrl") String picUrl) throws IOException {
+    System.out.println(picUrl);
     InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
+    System.out.println(imageUploadDir + File.separator + picUrl);
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     IOUtils.copy(in, response.getOutputStream());
   }

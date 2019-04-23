@@ -44,12 +44,12 @@ public class User implements Serializable {
   private UserType userType;
   @Column(name = "pic_url")
   private String picUrl;
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.DATE)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
   private Date profileCreated;
 
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.TIME)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   @Column
   private Date activeDate;

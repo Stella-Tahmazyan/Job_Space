@@ -3,7 +3,11 @@ package am.jobspace.web.controller;
 import am.jobspace.common.model.Category;
 
 import am.jobspace.common.model.Country;
+import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
+import am.jobspace.common.repository.PostRepository;
+import javafx.geometry.Pos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -71,5 +75,14 @@ public class BaseController {
 
   }
 
+  @Autowired
+  private PostRepository postRepository;
+
+  @ModelAttribute("viewedPosts")
+  public List<Post> moreViewed() {
+    List<Post> viewedPosts = postRepository.findTop10ByOrderByViewDesc();
+    return viewedPosts;
+
+  }
 
 }

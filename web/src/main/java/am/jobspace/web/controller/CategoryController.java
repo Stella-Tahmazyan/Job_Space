@@ -25,45 +25,47 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/category")
 public class CategoryController {
 
-    @Value("${image.upload.dir}")
-    private String imageUploadDir;
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
 
-    @Value("${server.IP}")
-    private String hostName;
+  @Value("${server.IP}")
+  private String hostName;
 
 
-    @Autowired
-    private CategoryRepositroy categoryRepositroy;
+  @Autowired
+  private CategoryRepositroy categoryRepositroy;
 
-    @GetMapping("/addCategory")
-    public String registerForm (ModelMap map){
-        //List<Category> allCat =  categoryRepositroy.findAll();
-       // map.addAttribute("categories",allCat);
-        return "category";
-    }
+  @GetMapping("/addCategory")
+  public String registerForm(ModelMap map) {
+    //List<Category> allCat =  categoryRepositroy.findAll();
+    // map.addAttribute("categories",allCat);
+    return "category";
+  }
 
-    @PostMapping("/addCategory")
-    public String register(Locale locale,RedirectAttributes redirectAttributes, @ModelAttribute Category cat , @RequestParam("picture") MultipartFile file) throws IOException {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        File picture = new File(imageUploadDir + File.separator + fileName);
-        file.transferTo(picture);
-        cat.setPicName(fileName);
-        cat.setLocale(locale);
-        categoryRepositroy.save(cat);
-        redirectAttributes.addFlashAttribute("message", "Added successfully!");
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-        return "redirect:/addCategory";
-    }
-    @GetMapping("/getImages")
-    public void getImageAsByteArray(HttpServletResponse response, @RequestParam("picUrl") String picUrl) throws IOException {
-        InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        IOUtils.copy(in, response.getOutputStream());
-    }
+  @PostMapping("/addCategory")
+  public String register(Locale locale, RedirectAttributes redirectAttributes,
+      @ModelAttribute Category cat, @RequestParam("picture") MultipartFile file)
+      throws IOException {
+    String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+    File picture = new File(imageUploadDir + File.separator + fileName);
+    file.transferTo(picture);
+    cat.setPicName(fileName);
+    cat.setLocale(locale);
+    categoryRepositroy.save(cat);
+    redirectAttributes.addFlashAttribute("message", "Added successfully!");
+    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+    return "redirect:/addCategory";
+  }
 
+  @GetMapping("/getImages")
+  public void getImageAsByteArray(HttpServletResponse response,
+      @RequestParam("picUrl") String picUrl) throws IOException {
+    InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    IOUtils.copy(in, response.getOutputStream());
+  }
 
 
   @GetMapping("get/all")
@@ -88,7 +90,7 @@ public class CategoryController {
   public String getAll(@RequestParam("id") int id) {
     RestTemplate restTemplate = new RestTemplate();
 
-    String url = hostName + "get/"+ id;
+    String url = hostName + "get/" + id;
 
     ResponseEntity<Category> response = restTemplate.exchange(
         url,
@@ -119,12 +121,12 @@ public class CategoryController {
         reqt,
         new ParameterizedTypeReference<Category>() {
         });
-     category = response.getBody();
+    category = response.getBody();
     return "redirect:/";
   }
 
   @GetMapping("delete")
-  public String deleteById(@RequestParam("id") int id,HttpServletRequest request) {
+  public String deleteById(@RequestParam("id") int id, HttpServletRequest request) {
     RestTemplate restTemplate = new RestTemplate();
     String url = hostName + "category/delete/" + id;
     User jwt = (User) request.getSession().getAttribute("user");

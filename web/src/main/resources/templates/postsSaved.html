@@ -26,7 +26,7 @@
           <aside>
             <div class="sidebar-modern-inner">
               <div class="block-title sidebar-header">
-                <h5><a th:href="@{getPost/all}">All Categories</a></h5>
+                <h5><a href="#">All Categories</a></h5>
               </div>
               <div class="block-content categories-list  list-filter ">
 
@@ -80,19 +80,21 @@
 
                       </a>
 
-                      <a th:href="@{/getPost(id=${post.id})}">
+                      <a th:href="@{/getPostByCategory(id=${post.id})}">
                         <img alt="340x230" class="card-img-top img-responsive"
                              data-holder-rendered="true"
-                             th:src=="@{/getImages(pic_url=${post.picUrl})}"> </a>
+                             src="http://localhost.:8084/images/10x6.gif"> </a>
                     </div>
                     <div class="card-body" style="margin-top: 14px;">
                       <h4 class="card-title">
-                        <a th:href="@{/getPost(id=${post.id})}" th:text="${post.title}"></a>
+                        <a href="#" th:text="${post.title}"></a>
                         <span style="float: right;">
                           <i class="fa fa-eye"></i>
                           <span th:text="${post.view}"></span>
                         </span>
                       </h4>
+
+
                       <div class="card-event-info">
 
                         <p class="event-time" th:text="${post.postDate}"><i
@@ -101,7 +103,7 @@
                     </div>
                     <div class="card-footer">
                       <div class="pull-left left">
-                        <div class="" th:text="${'By '+post.user.name}">by <a th:href="@{/getPostByUser(id=${post.user.id})}"> </a></div>
+                        <div class="" th:text="${'By '+post.user.name}">by <a href="#"> </a></div>
                       </div>
                       <!--<div class="pull-right right social-link">-->
                       <!--<a href="#"><i class="fa  fa-share-alt"></i> </a>-->
@@ -127,7 +129,7 @@
                 <li class="page-item active" th:if="${posts.totalPages > 0}"
                     th:each="pageNumber : ${pageNumbers}">
                       <a class="page-link" style="cursor: pointer;"
-                         th:href="@{/getAllPost(size=${posts.size}, page=${pageNumber})}"
+                         th:href="@{/getAllPostBySaved(size=${posts.size}, page=${pageNumber})}"
                          th:text="${pageNumber}"
                          th:class="${pageNumber==posts.number + 1} ? active"></a>
                 </li>
