@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: default
+  name: ca-job-space-api
+  labels:
+    app: ca-job-space-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ca-job-space-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      namespace: default
+      labels:
+        app: ca-job-space-api
+    spec:
+      containers:
+      - env: 
+        image: java/api
+        imagePullPolicy: Never
+        name: nginx
+        ports:
+        - containerPort: 8087
+
