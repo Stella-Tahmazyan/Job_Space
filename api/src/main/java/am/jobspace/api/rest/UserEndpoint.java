@@ -41,7 +41,6 @@ public class UserEndpoint {
   })
   public ResponseEntity add(@RequestBody User user) {
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-      user.setActiveDate(new Date());
       return ResponseEntity
           .status(HttpStatus.CONFLICT)
           .build();
@@ -56,7 +55,6 @@ public class UserEndpoint {
     Optional<User> byEmail = userRepository.findByEmail(email);
     if (byEmail.isPresent()) {
       User user = byEmail.get();
-      user.setActiveDate(new Date());
       return ResponseEntity.ok(user);
     }
     return ResponseEntity

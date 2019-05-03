@@ -6,6 +6,7 @@ import am.jobspace.common.model.Country;
 import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.PostRepository;
+import am.jobspace.common.repository.UserRepository;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +33,8 @@ public class BaseController {
 
 
   private CategoryRepositroy categoryRepositroy;
-
+  @Autowired
+  private UserRepository userRepository;
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
 
@@ -43,7 +45,6 @@ public class BaseController {
   public User login(HttpServletRequest request) {
     User user = (User) request.getSession().getAttribute("user");
     if (user != null) {
-      user.setActiveDate(new Date());
       RestTemplate restTemplate = new RestTemplate();
       String url = hostName + "/user/update";
       HttpEntity<User> reqt = new HttpEntity<>(user);

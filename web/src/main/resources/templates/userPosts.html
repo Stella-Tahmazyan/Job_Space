@@ -63,15 +63,6 @@
                   <div class="grid-col">
                     <div class="col from">
                       <i class="fas fa-clock"></i>
-                      <span>Last Online</span>
-                    </div>
-                    <div class="col to">
-                      <span th:text="${user.activeDate}"></span>
-                    </div>
-                  </div>
-                  <div class="grid-col">
-                    <div class="col from">
-                      <i class="fas fa-clock"></i>
                       <span>Number</span>
                     </div>
                     <div class="col to">
@@ -131,9 +122,9 @@
                       </a>
 
                       <a th:href="@{/getPost(id=${post.id})}">
-                        <img alt="340x230" class="card-img-top img-responsive"
+                        <img class="card-img-top img-responsive"
                              data-holder-rendered="true"
-                             th:src="@{/getPost(id=${post.pic_url})}"> </a>
+                             th:src="@{/getImages(id=${post.picUrl})}"> </a>
                     </div>
                     <div class="card-body" style="margin-top: 14px;">
                       <h4 class="card-title">

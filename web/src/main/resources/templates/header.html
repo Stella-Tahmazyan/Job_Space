@@ -53,6 +53,11 @@
 
                   </a>
                 <li>
+                <li class="active dropdown-item" th:if="${currentUser!=null}">
+                  <a style="color: #16A085;" th:href="@{/getAllPostByCurrentUser}"><i class="icon-home"></i> All Posts
+
+                  </a>
+                <li>
                   <!--<span th:if="${userik!=null}" th:text="${userik.username}"> </span>-->
 
                 </li>

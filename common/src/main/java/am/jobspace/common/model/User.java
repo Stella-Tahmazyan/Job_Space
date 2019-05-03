@@ -49,10 +49,6 @@ public class User implements Serializable {
   @Column
   private Date profileCreated;
 
-  @Temporal(TemporalType.TIME)
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  @Column
-  private Date activeDate;
 
   @Column
   private String country;

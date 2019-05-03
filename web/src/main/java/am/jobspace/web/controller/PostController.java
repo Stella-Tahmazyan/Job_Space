@@ -5,12 +5,14 @@ import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.PostRepository;
 import am.jobspace.common.repository.UserRepository;
+import am.jobspace.web.security.SpringUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -30,7 +32,6 @@ import java.util.stream.IntStream;
 
 
 @Controller
-//@RequestMapping("/post")
 public class PostController {
 
   @Value("${server.IP}")
@@ -47,7 +48,7 @@ public class PostController {
 
   @PostMapping("post/add")
   public String add(@ModelAttribute Post post, HttpServletRequest req, BindingResult bindingResult,
-      @RequestParam("picture") MultipartFile file) throws IOException {
+      @RequestParam(value = "picture",required = false) MultipartFile file) throws IOException {
 //    if (bindingResult.hasErrors()) {
 //      return "post-ads";
 //    }
@@ -59,11 +60,14 @@ public class PostController {
     user = new User().builder().id(user.getId()).build();
     post.setPostDate(new Date());
     post.setUser(user);
-    String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-    File picture = new File(imageUploadDir + File.separator + fileName);
-    file.transferTo(picture);
-    user.setPicUrl(fileName);
-
+    if(file!=null) {
+      String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+      File picture = new File(imageUploadDir + File.separator + fileName);
+      file.transferTo(picture);
+      post.setPicUrl(fileName);
+    }else{
+      post.setPicUrl("ads.jpeg");
+    }
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<Post> request = new HttpEntity<>(post);
     restTemplate.exchange(
@@ -81,7 +85,11 @@ public class PostController {
       ModelMap modelMap) {
     Optional<Post> post = postRepository.findById(id);
     if (post.isPresent()) {
-      modelMap.addAttribute("post", post.get());
+      Post p = post.get();
+      int view= p.getView()+1;
+      p.setView(view);
+      postRepository.save(p);
+      modelMap.addAttribute("post",post.get());
     }
 
     return "post-detail";
@@ -93,7 +101,7 @@ public class PostController {
     int currentPage = page.orElse(1);
     int pageSize = size.orElse(4);
     Page<Post> posts = postRepository
-        .findAllBySavedAndUserId(true, id, PageRequest.of(currentPage - 1, pageSize));
+        .findAllByUserId( id, PageRequest.of(currentPage - 1, pageSize));
 
     map.addAttribute("posts", posts);
     int totalPages = posts.getTotalPages();
@@ -111,6 +119,33 @@ public class PostController {
     }
 
     return "userPosts";
+  }
+  @GetMapping("/getAllPostByCurrentUser")
+  public String getAllPostByCurrnetUser( @RequestParam("page") Optional<Integer> page,
+      @RequestParam("size") Optional<Integer> size, ModelMap map,@AuthenticationPrincipal
+      SpringUser springUser) {
+int id=springUser.getUser().getId();
+    int currentPage = page.orElse(1);
+    int pageSize = size.orElse(4);
+    Page<Post> posts = postRepository
+        .findAllByUserId(id, PageRequest.of(currentPage - 1, pageSize));
+
+    map.addAttribute("posts", posts);
+    int totalPages = posts.getTotalPages();
+    if (totalPages > 0) {
+      List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+          .boxed()
+          .collect(Collectors.toList());
+      map.addAttribute("pageNumbers", pageNumbers);
+
+    }
+
+    Optional<User> user = userRepository.findById(id);
+    if (user.isPresent()) {
+      map.addAttribute("user", user.get());
+    }
+
+    return "currentUserPosts";
   }
 
   @GetMapping("getAllPostBySaved")
@@ -200,20 +235,6 @@ public class PostController {
 
   }
 
-  @GetMapping("updatePost")
-  public String update(@ModelAttribute("post") Post post) {
-    RestTemplate restTemplate = new RestTemplate();
-    String url = hostName + "post/update";
-    HttpEntity<Post> httpEntity = new HttpEntity<>(post);
-    ResponseEntity<Post> response = restTemplate.exchange(
-        url,
-        HttpMethod.PUT,
-        httpEntity,
-        new ParameterizedTypeReference<Post>() {
-        });
-    post = response.getBody();
-    return "redirect:/";
-  }
 
   @GetMapping(value = "updatePost/saved", produces = {MediaType.APPLICATION_JSON_VALUE})
   @ResponseBody
@@ -243,7 +264,7 @@ public class PostController {
         String.class
     );
     response.getStatusCode();
-    return "";
+    return "redirect:/getAllPostByCurrentUser";
   }
 }
 

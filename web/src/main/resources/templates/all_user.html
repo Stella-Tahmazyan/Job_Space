@@ -48,14 +48,6 @@
 
                       <a th:href="@{/getAllPostByUser(id=${user.id})}" class="event-pop-link">
 
-                        <ul>
-                          <li>
-                            <time>
-                              <span th:text="${user.activeDate}"></span>
-                            </time>
-                          </li>
-                        </ul>
-
                       </a>
 
                       <!--<a th:href="@{/getPost(id=${post.id})}">-->
@@ -67,8 +59,6 @@
                       <h4 class="card-title">
                         <a th:href="@{/getPost(id=${user.id})}" th:text="${user.name}+'  '+${user.surname}"></a>
                       </h4>
-
-
                       <div class="card-event-info">
 
                         <p class="event-time" th:text="${post.postDate}"><i
