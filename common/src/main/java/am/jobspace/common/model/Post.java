@@ -47,5 +47,9 @@ public class Post {
   private boolean saved;
   @Column
   private int view;
+
+  @Column(name = "approved")
+  @Enumerated(EnumType.STRING)
+  private PostApproved postApproved=PostApproved.PASSIVE;
 }
 
