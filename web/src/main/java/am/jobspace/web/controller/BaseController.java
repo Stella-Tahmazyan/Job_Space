@@ -1,13 +1,10 @@
 package am.jobspace.web.controller;
-
 import am.jobspace.common.model.Category;
-
-import am.jobspace.common.model.Country;
 import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.PostRepository;
 import am.jobspace.common.repository.UserRepository;
-import javafx.geometry.Pos;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
