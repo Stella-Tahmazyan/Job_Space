@@ -9,14 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -38,14 +33,14 @@ public class AdminController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/admin")
-        public String main(@RequestParam("page") Optional<Integer> page,
-                        @RequestParam("size") Optional<Integer> size,ModelMap map) {
+    public String main(@RequestParam("page") Optional<Integer> page,
+                       @RequestParam("size") Optional<Integer> size,ModelMap map) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
         Page<Post> all = postRepository.findAll( PageRequest.of(currentPage - 1, pageSize));
-        //Page<User> allusers = userRepository.findAll( PageRequest.of(currentPage - 1, pageSize));
+        List<User> allusers = userRepository.findAll();
         map.addAttribute("postPage", all);
-        //map.addAttribute("userPage", allusers);
+        map.addAttribute("userPage", allusers);
         int totalPages = all.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
