@@ -1,8 +1,6 @@
 package am.jobspace.api.rest;
 
-import am.jobspace.api.util.JwtTokenUtil;
 import am.jobspace.common.model.JwtAuthRequestDto;
-import am.jobspace.common.model.JwtAuthResponseDto;
 import am.jobspace.common.model.User;
 import am.jobspace.common.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
@@ -12,19 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-/*
-import org.springframework.security.crypto.password.PasswordEncoder;
-*/
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
 @RestController
 public class UserEndpoint {
-//  @Autowired
-//  private JwtTokenUtil jwtTokenUtil;
+
 
   @Value("${image.upload.dir}")
   private String imageUploadDir;

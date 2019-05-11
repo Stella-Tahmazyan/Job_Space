@@ -6,7 +6,7 @@
 
   <div class="linkinner linkScroll scrollbar " tabindex="1"
        style="overflow: hidden; outline: none; touch-action: none;">
-    <a th:each="cat : ${categories}" th:text="${cat.name}"></a>
+    <a th:href="@{/getPostByCategory(id=${cat.id})}" th:each="cat : ${categories}" th:text="${cat.name}"></a>
   </div>
 
   <p class="tbtn"><i class="fa fa-angle-double-left"></i></p>
