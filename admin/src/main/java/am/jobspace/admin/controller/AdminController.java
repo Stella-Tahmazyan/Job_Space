@@ -43,9 +43,9 @@ public class AdminController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
         Page<Post> all = postRepository.findAll( PageRequest.of(currentPage - 1, pageSize));
-        //Page<User> allusers = userRepository.findAll( PageRequest.of(currentPage - 1, pageSize));
+        List<User> allusers = userRepository.findAll();
         map.addAttribute("postPage", all);
-        //map.addAttribute("userPage", allusers);
+        map.addAttribute("userPage", allusers);
         int totalPages = all.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)

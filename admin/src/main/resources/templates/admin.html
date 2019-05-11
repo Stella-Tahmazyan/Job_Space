@@ -79,7 +79,7 @@
        <!--comment-->
 
         <h2>USERS</h2>
-        <table class="table table-bordered table-sm  table-striped" id="example">
+        <table class="table table-bordered table-sm  table-striped" id="example1">
 
             <thead>
             <tr>
@@ -92,7 +92,7 @@
             </thead>
 
             <tbody>
-            <tr th:each="user: ${userPage.content}">
+            <tr th:each="user: ${userPage}">
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.surname}"></td>
@@ -109,18 +109,7 @@
             </tr>
             </tfoot>
         </table>
-        <div class="pagination-bar text-center">
-            <nav aria-label="Page navigation " class="d-inline-b">
-                <ul class="pagination">
-                    <li  th:if="${userPage.totalPagesUsers > 0}"
-                         th:each="pageNumber : ${pageNumbers1}" th:class="${pageNumber==userPage.number + 1} ? active">
-                        <a th:href="@{/admin/(size=${userPage.size}, page=${pageNumber})}"
-                           th:text="${pageNumber}"
-                           th:class="page-link"></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+
 
 
     </div>

@@ -59,13 +59,13 @@ public class CategoryController {
     return "redirect:/admin/addCategory";
   }
 
-  @GetMapping("/getImages")
-  public void getImageAsByteArray(HttpServletResponse response,
-      @RequestParam("picUrl") String picUrl) throws IOException {
-    InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
-    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-    IOUtils.copy(in, response.getOutputStream());
-  }
+//  @GetMapping("/getImages")
+//  public void getImageAsByteArray(HttpServletResponse response,
+//      @RequestParam("picUrl") String picUrl) throws IOException {
+//    InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
+//    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+//    IOUtils.copy(in, response.getOutputStream());
+//  }
 
 
   @GetMapping("get/all")
