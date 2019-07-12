@@ -1,0 +1,121 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+     layout:decorate="~{base_layout}" layout:fragment="~{body}" th:remove="tag">
+  <div class="intro" style="background-image: url(/images/bg3.jpg);min-height:100px">
+    <div class="dtable hw100">
+      <div class="dtable-cell hw100">
+        <div class="container text-center">
+          <h1 class="intro-title animated fadeInDown"> Find and add your Ads </h1>
+
+          <p class="sub animateme fittext3 animated fadeIn">
+            Find local classified ads on bootclassified in Minutes
+          </p>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /.search-row -->
+  <div class="main-container">
+    <div class="container">
+      <div class="row">
+        <!-- this (.mobile-filter-sidebar) part will be position fixed in mobile version -->
+        <div class="col-md-9 page-content col-thin-left">
+          <div class="category-list event-category-list">
+
+            <div class="listing-filter listing-filter-event">
+              <div class="col-6 p-0 text-right listing-view-action hasEvent"><span
+                  class="e-list-view "><i class="  icon-th"></i></span> <span
+                  class="e-grid-view active"><i class=" icon-th-large "></i></span></div>
+              <div style="clear:both"></div>
+            </div>
+
+
+            <div class="adds-wrapper">
+              <div class="row">
+                <div class="col-md-4 col-sm-6 col-12 event-item-col" th:each="user : ${users}">
+                  <div class="card card-event info-overlay" style="width: 193px;margin-left: 91px;">
+                    <div class="img has-background"
+                         style="background-image: url(/images/ads.jpeg); background-size:cover ">
+                      <div class="pop-info ">
+                                    <span class="event-badges ">
+									    <span class="badge price-tag big badge-default"> FREE</span>
+								    </span>
+                      </div>
+
+
+                      <a th:href="@{/getAllPostByUser(id=${user.id})}" class="event-pop-link">
+
+                      </a>
+
+                      <!--<a th:href="@{/getPost(id=${post.id})}">-->
+                        <!--<img alt="340x230" class="card-img-top img-responsive"-->
+                             <!--data-holder-rendered="true"-->
+                             <!--src="http://localhost.:8084/images/10x6.gif"> </a>-->
+                    </div>
+                    <div class="card-body" style="margin-top: 14px;">
+                      <h4 class="card-title">
+                        <a th:href="@{/getPost(id=${user.id})}" th:text="${user.name}+'  '+${user.surname}"></a>
+                      </h4>
+                      <div class="card-event-info">
+
+                        <p class="event-time" th:text="${post.postDate}"><i
+                            class="fa icon-calendar-1"></i></p>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="pull-left left">
+                        <div class="" th:text="${'By '+post.user.name}">by <a href="#"> </a></div>
+                      </div>
+                      <!--<div class="pull-right right social-link">-->
+                      <!--<a href="#"><i class="fa  fa-share-alt"></i> </a>-->
+
+                      <!--<a href="#"><i class="fa  fa-heart"></i> </a>-->
+                      <!--</div>-->
+
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <!--/.adds-wrapper-->
+
+            <div class="tab-box  save-search-bar text-center"></div>
+          </div>
+          <div class="pagination-bar text-center">
+            <nav aria-label="Page navigation " class="d-inline-b">
+              <ul class="pagination">
+
+                <li class="page-item active" th:if="${posts.totalPages > 0}"
+                    th:each="pageNumber : ${pageNumbers}">
+                      <a class="page-link" style="cursor: pointer;"
+                         th:href="@{/getAllPost(id=${id},size=${posts.size}, page=${pageNumber})}"
+                         th:text="${pageNumber}"
+                         th:class="${pageNumber==posts.number + 1} ? active"></a>
+                </li>
+
+              </ul>
+            </nav>
+          </div>
+
+
+          <!--/.pagination-bar -->
+
+          <div class="post-promo text-center" th:if="${currentUser!=null}">
+
+            <a th:href="@{/postAds}" class="btn btn-lg btn-border btn-post btn-danger">Post a Free Ad </a>
+          </div>
+          <!--/.post-promo-->
+
+        </div>
+        <!--/.page-content-->
+
+      </div>
+    </div>
+  </div>
+</div>
+

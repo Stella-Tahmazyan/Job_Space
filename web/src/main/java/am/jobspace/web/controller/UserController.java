@@ -2,8 +2,9 @@ package am.jobspace.web.controller;
 
 
 import am.jobspace.common.model.JwtAuthRequestDto;
-import am.jobspace.common.model.JwtAuthResponseDto;
+import am.jobspace.common.model.Post;
 import am.jobspace.common.model.User;
+import am.jobspace.common.repository.CategoryRepositroy;
 import am.jobspace.common.repository.UserRepository;
 import am.jobspace.web.security.SpringUser;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -28,72 +29,81 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
 
 
-    @Value("${image.upload.dir}")
-    private String imageUploadDir;
+  @Value("${image.upload.dir}")
+  private String imageUploadDir;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
 
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private CategoryRepositroy categoryRepositroy;
 
   @Value("${server.IP}")
   private String hostName;
+
 //  @Autowired
 //  private EmailService emailService;
 
+
+  @GetMapping("/getUser/all")
+  public String getAllUser(int id, RedirectAttributes redirectAttributes,
+      ModelMap modelMap) {
+    List<User> users = userRepository.findAll();
+    List<User> activeUsers = userRepository.findAll();
+    modelMap.addAttribute("user", users);
+    return "all-user";
+  }
+
   @GetMapping("/loginSuccess")
   public String loginSuccess(@AuthenticationPrincipal
-      SpringUser springUser,HttpServletRequest request ) {
-    String url = hostName+"auth";
+      SpringUser springUser, HttpServletRequest request) {
+    String url = hostName + "auth";
     RestTemplate restTemplate = new RestTemplate();
 
     HttpEntity<JwtAuthRequestDto> req = new HttpEntity<>(new JwtAuthRequestDto().builder()
-        .email(springUser.getUser().getEmail()).password(springUser.getUser().getPassword()).build());
+        .email(springUser.getUser().getEmail()).build());
 
-    ResponseEntity<JwtAuthResponseDto> response = restTemplate.exchange(
+    ResponseEntity<User> response = restTemplate.exchange(
         url,
         HttpMethod.POST,
         req,
-        JwtAuthResponseDto.class);
-    JwtAuthResponseDto user = response.getBody();
-    request.getSession().setAttribute("user",user);
-    if (user == null) {
+        User.class);
+
+    User user = response.getBody();
+    if (user == null || !springUser.getUser().getPassword().equals(user.getPassword())) {
+      request.getSession().setAttribute("user", user);
       return "redirect:/login";
     }
+    request.getSession().setAttribute("user", user);
     return "redirect:/";
 
   }
 
-  @GetMapping("/register")
-  public String registerForm(ModelMap map) {
-
-    List<User> all = userRepository.findAll();
-    map.addAttribute("users", all);
-    //map.addAttribute("user", new User());
-    return "registration";
-  }
-
   @PostMapping("/register")
-  public String register(RedirectAttributes redirectAttributes,
-      @ModelAttribute("user")
-      @Valid User user, BindingResult bindingResult,
-      @RequestParam("picture") MultipartFile file) throws IOException {
+  public String register(@ModelAttribute("user") @Valid User user,
+      BindingResult bindingResult, @RequestParam("picture") MultipartFile file) throws IOException {
     if (bindingResult.hasErrors()) {
       return "registration";
 
     }
-    String url = hostName+"user/add";
+    String url = hostName + "user/add";
     String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
     File picture = new File(imageUploadDir + File.separator + fileName);
     file.transferTo(picture);
     user.setPicUrl(fileName);
+    user.setProfileCreated(new Date());
+
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     RestTemplate restTemplate = new RestTemplate();
     HttpEntity<User> request = new HttpEntity<>(user);
 
@@ -102,28 +112,25 @@ public class UserController {
         HttpMethod.POST,
         request,
         User.class);
-    if(response.getStatusCode().equals(HttpStatus.CONFLICT)){
+    if (response.getStatusCode().equals(HttpStatus.CONFLICT)) {
       return "redirect:/register";
     }
     return "redirect:/login";
 
-//redirectAttributes.addFlashAttribute("message", "You are registered successfully!");
-//    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-
-//    return "redirect:/";
   }
 
-  @GetMapping("/add")
-  public String addUserView(ModelMap map) {
-    userRepository.findAll();
-    return "addUser";
-  }
-
+//  @GetMapping("/add")
+//  public String addUserView(ModelMap map) {
+//    userRepository.findAll();
+//    return "addUser";
+//  }
 
   @GetMapping("/getImage")
   public void getImageAsByteArray(HttpServletResponse response,
       @RequestParam("picUrl") String picUrl) throws IOException {
+    System.out.println(picUrl);
     InputStream in = new FileInputStream(imageUploadDir + File.separator + picUrl);
+    System.out.println(imageUploadDir + File.separator + picUrl);
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     IOUtils.copy(in, response.getOutputStream());
   }

@@ -1,39 +1,58 @@
 package am.jobspace.web.controller;
-
 import am.jobspace.common.model.Category;
-import am.jobspace.common.model.JwtAuthResponseDto;
+import am.jobspace.common.model.Post;
+import am.jobspace.common.model.User;
+import am.jobspace.common.repository.PostRepository;
+import am.jobspace.common.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-<<<<<<< HEAD
-import am.jobspace.common.repository.CategoryRepositroy;
-=======
 
 import am.jobspace.common.repository.CategoryRepositroy;
-import am.jobspace.web.security.SpringUser;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
->>>>>>> roza_project
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 
 @ControllerAdvice
 public class BaseController {
-    private CategoryRepositroy categoryRepositroy;
+
+
+  private CategoryRepositroy categoryRepositroy;
+  @Autowired
+  private UserRepository userRepository;
+  private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
 
   @Value("${server.IP}")
   private String hostName;
 
   @ModelAttribute("currentUser")
-  public JwtAuthResponseDto login(HttpServletRequest request) {
-    return (JwtAuthResponseDto) request.getSession().getAttribute("user");
+  public User login(HttpServletRequest request) {
+    User user = (User) request.getSession().getAttribute("user");
+    if (user != null) {
+      RestTemplate restTemplate = new RestTemplate();
+      String url = hostName + "/user/update";
+      HttpEntity<User> reqt = new HttpEntity<>(user);
+      ResponseEntity<User> response = restTemplate.exchange(
+          url,
+          HttpMethod.PUT,
+          reqt,
+          new ParameterizedTypeReference<User>() {
+          });
+      user = response.getBody();
+    }
+    return user;
   }
 
   @ModelAttribute("categories")
@@ -42,14 +61,24 @@ public class BaseController {
     RestTemplate restTemplate = new RestTemplate();
 
     ResponseEntity<List<Category>> response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            null,
-            new ParameterizedTypeReference<List<Category>>() {
-            });
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Category>>() {
+        });
     List<Category> categories = response.getBody();
 
     return categories;
+
+  }
+
+  @Autowired
+  private PostRepository postRepository;
+
+  @ModelAttribute("viewedPosts")
+  public List<Post> moreViewed() {
+    List<Post> viewedPosts = postRepository.findTop10ByOrderByViewDesc();
+    return viewedPosts;
 
   }
 
